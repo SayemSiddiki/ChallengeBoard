@@ -1,0 +1,312 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Rooster';
+  src: url('/src/assets/fonts/ROOSTER-PERSONAL-USE.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-background: #050509;
+  --color-foreground: #f9fafb;
+  --color-accent: #22c55e;
+  --color-muted: #1f2937;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+@keyframes money-fall {
+  0% {
+    transform: translateY(-20%) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.money-rain-item {
+  position: absolute;
+  animation-name: money-fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+@keyframes float-soft {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-soft {
+  animation: float-soft 4s ease-in-out infinite;
+}
+
+@keyframes fade-up-soft {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up-soft {
+  animation: fade-up-soft 0.7s ease-out forwards;
+}
+
+.fade-up-soft-delay-1 {
+  animation: fade-up-soft 0.8s ease-out 0.08s forwards;
+}
+
+.fade-up-soft-delay-2 {
+  animation: fade-up-soft 0.9s ease-out 0.16s forwards;
+}
+
+.fade-up-soft-delay-3 {
+  animation: fade-up-soft 1s ease-out 0.24s forwards;
+}
+
+@keyframes page-flip-in {
+  0% {
+    opacity: 0;
+    transform: perspective(1200px) rotateY(12deg) translateX(24px);
+    transform-origin: 100% 50%;
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(0deg) translateX(0);
+    transform-origin: 100% 50%;
+  }
+}
+
+.page-transition {
+  transform-origin: 100% 50%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation: page-flip-in 0.45s ease-out;
+}
+
+@keyframes introProgress {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bounce-slow {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.03);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 1.6s ease-in-out infinite;
+}
+
+@keyframes shimmer-text {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.quote-shimmer {
+  background-image: linear-gradient(
+    120deg,
+    rgba(148, 163, 184, 0.7),
+    rgba(45, 212, 191, 0.95),
+    rgba(148, 163, 184, 0.7)
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer-text 4s ease-in-out infinite;
+}
+
+.app-bg-gradient-light {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 0% 0%, #d9fdd8 0, rgba(217, 253, 216, 0.9) 22%, transparent 45%),
+    radial-gradient(circle at 100% 100%, #ccfbf1 0, rgba(204, 251, 241, 0.9) 24%, transparent 50%);
+  background-color: #ecfdf5;
+}
+
+.app-bg-blobs-light {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.22;
+  background:
+    radial-gradient(circle at 12% 25%, rgba(16, 185, 129, 0.32) 0, transparent 55%),
+    radial-gradient(circle at 82% 70%, rgba(45, 212, 191, 0.3) 0, transparent 55%),
+    radial-gradient(circle at 45% 90%, rgba(234, 179, 8, 0.2) 0, transparent 55%);
+  animation: app-blobs-sway 40s ease-in-out infinite alternate;
+}
+
+.app-bg-grid-light {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(15, 23, 42, 0.08) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(15, 23, 42, 0.08) 1px,
+      transparent 1px
+    );
+  background-size: 32px 32px;
+  mix-blend-mode: soft-light;
+}
+
+.app-bg-edges-light {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to right,
+      rgba(16, 185, 129, 0.22) 0,
+      rgba(16, 185, 129, 0.16) 8%,
+      transparent 22%
+    ),
+    linear-gradient(
+      to left,
+      rgba(45, 212, 191, 0.22) 0,
+      rgba(45, 212, 191, 0.16) 8%,
+      transparent 22%
+    );
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+}
+
+.full-bleed {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+@keyframes completion-confetti-fall {
+  0% {
+    transform: translate3d(0, -20%, 0) rotateZ(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 120vh, 0) rotateZ(360deg);
+    opacity: 0;
+  }
+}
+
+.completion-confetti {
+  position: absolute;
+  top: -10%;
+  border-radius: 9999px;
+  opacity: 0.9;
+  animation-name: completion-confetti-fall;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes completion-modal-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.completion-modal-card {
+  animation: completion-modal-pop 0.42s cubic-bezier(0.22, 0.7, 0.3, 1);
+}
+
+.completion-check-glow {
+  box-shadow:
+    0 0 0 4px rgba(34, 197, 94, 0.12),
+    0 0 35px rgba(34, 197, 94, 0.65);
+}
+
+@keyframes app-blobs-sway {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(14px, -10px, 0);
+  }
+  100% {
+    transform: translate3d(-10px, 12px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-bg-blobs-light {
+    animation: none;
+  }
+  .float-soft,
+  .fade-up-soft,
+  .fade-up-soft-delay-1,
+  .fade-up-soft-delay-2,
+  .fade-up-soft-delay-3 {
+    animation: none;
+  }
+}
