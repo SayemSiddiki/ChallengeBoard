@@ -21,18 +21,13 @@ export function FooterProgress() {
   useEffect(() => {
     if (typeof window === 'undefined') return
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const handle = (event: MediaQueryListEvent | MediaQueryList) => {
+    const handle = (event: MediaQueryListEvent) => {
       setReducedMotion(event.matches)
     }
 
-    handle(mq)
-    if ('addEventListener' in mq) {
-      mq.addEventListener('change', handle)
-      return () => mq.removeEventListener('change', handle)
-    }
-    // Fallback for older browsers
-    mq.addListener(handle)
-    return () => mq.removeListener(handle)
+    handle(mq as unknown as MediaQueryListEvent)
+    mq.addEventListener('change', handle)
+    return () => mq.removeEventListener('change', handle)
   }, [])
 
   useEffect(() => {
