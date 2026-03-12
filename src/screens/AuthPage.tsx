@@ -23,6 +23,27 @@ export function AuthPage() {
     return () => clearInterval(t)
   }, [cooldown])
 
+  const handleOAuthSignIn = async (provider: 'google' | 'github') => {
+    if (!supabase) {
+      setError('Supabase is not configured. Guest mode will keep working.')
+      return
+    }
+    setStatus(`Redirecting to ${provider === 'google' ? 'Google' : 'GitHub'}...`)
+    setError(null)
+
+    const { error: supaError } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: window.location.origin + '/board',
+      },
+    })
+
+    if (supaError) {
+      setError(supaError.message)
+      setStatus(null)
+    }
+  }
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!supabase) {
@@ -104,6 +125,29 @@ export function AuthPage() {
             {error}
           </div>
         )}
+        <div className="mt-4 space-y-2 border-t border-slate-800 pt-4">
+          <p className="text-[0.7rem] text-slate-400">
+            Or continue with a social account:
+          </p>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <button
+              type="button"
+              disabled={!enabled}
+              onClick={() => handleOAuthSignIn('google')}
+              className="inline-flex flex-1 items-center justify-center rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-xs font-medium text-slate-100 hover:border-emerald-500 hover:text-emerald-200 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Continue with Google
+            </button>
+            <button
+              type="button"
+              disabled={!enabled}
+              onClick={() => handleOAuthSignIn('github')}
+              className="inline-flex flex-1 items-center justify-center rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-xs font-medium text-slate-100 hover:border-emerald-500 hover:text-emerald-200 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Continue with GitHub
+            </button>
+          </div>
+        </div>
         {!enabled && (
           <p className="mt-3 text-[0.7rem] text-slate-500">
             Set <code>VITE_SUPABASE_URL</code> and{' '}
