@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react'
 import { Layout } from '../components/Layout'
 import { FooterProgress } from '../components/FooterProgress'
 import { useBoardStore } from '../store/boardStore'
+import { useAuthStore } from '../store/authStore'
 
 export function HomePage() {
   const navigate = useNavigate()
   const guestMode = useBoardStore((s) => s.guestMode)
   const theme = useBoardStore((s) => s.theme)
+  const session = useAuthStore((s) => s.session)
   const isDark = theme === 'dark'
 
   const [preview, setPreview] = useState(() => ({
@@ -97,13 +99,15 @@ export function HomePage() {
               >
                 Rules
               </button>
-              <button
-                type="button"
-                onClick={() => navigate('/auth')}
-                className="inline-flex w-full items-center justify-center rounded-full bg-emerald-500 px-6 py-2.5 font-semibold text-black shadow-lg shadow-emerald-500/40 transition hover:bg-emerald-400"
-              >
-                Make an account
-              </button>
+              {!session && (
+                <button
+                  type="button"
+                  onClick={() => navigate('/auth')}
+                  className="inline-flex w-full items-center justify-center rounded-full bg-emerald-500 px-6 py-2.5 font-semibold text-black shadow-lg shadow-emerald-500/40 transition hover:bg-emerald-400"
+                >
+                  Make an account
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => navigate('/board')}
