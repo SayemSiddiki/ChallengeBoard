@@ -11,6 +11,7 @@ export function HomePage() {
   const location = useLocation()
   const guestMode = useBoardStore((s) => s.guestMode)
   const theme = useBoardStore((s) => s.theme)
+  const setTheme = useBoardStore((s) => s.setTheme)
   const session = useAuthStore((s) => s.session)
   const isDark = theme === 'dark'
 
@@ -56,6 +57,45 @@ export function HomePage() {
             </span>
             Savings challenge
           </div>
+          {!session && (
+            <div className="flex items-center justify-center md:justify-start">
+              <button
+                type="button"
+                onClick={() => setTheme(isDark ? 'light' : 'dark')}
+                className={[
+                  'group relative inline-flex h-9 w-44 items-center rounded-full border px-1 transition-colors',
+                  'focus:outline-none focus:ring-2 focus:ring-emerald-500/60 focus:ring-offset-2 focus:ring-offset-black',
+                  isDark
+                    ? 'border-slate-800 bg-slate-950 text-slate-200'
+                    : 'border-slate-200 bg-white text-slate-700',
+                ].join(' ')}
+                aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+              >
+                <span
+                  className={[
+                    'absolute left-1 top-1 h-7 w-20 rounded-full bg-emerald-500 shadow transition-all duration-300 ease-out',
+                    isDark ? 'translate-x-0' : 'translate-x-[4.75rem]',
+                  ].join(' ')}
+                />
+                <span
+                  className={[
+                    'relative z-10 flex-1 text-center text-[0.7rem] font-semibold transition-colors',
+                    isDark ? 'text-black' : 'text-slate-500',
+                  ].join(' ')}
+                >
+                  Dark
+                </span>
+                <span
+                  className={[
+                    'relative z-10 flex-1 text-center text-[0.7rem] font-semibold transition-colors',
+                    isDark ? 'text-slate-400' : 'text-black',
+                  ].join(' ')}
+                >
+                  Light
+                </span>
+              </button>
+            </div>
+          )}
           <h1
             className={[
               'text-balance text-3xl font-semibold sm:text-4xl md:text-5xl',
