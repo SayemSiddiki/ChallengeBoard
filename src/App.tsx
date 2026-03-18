@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useBoardStore, loadBoardStateForCurrentUser } from './store/boardStore'
 import { Logo } from './components/logo'
@@ -13,7 +13,9 @@ function App() {
   const clearToast = useBoardStore((s) => s.clearToast)
   const setGuestMode = useBoardStore((s) => s.setGuestMode)
   const location = useLocation()
+  const navigate = useNavigate()
 
+  const session = useAuthStore((s) => s.session)
   const setSession = useAuthStore((s) => s.setSession)
   const setIsSessionLoading = useAuthStore((s) => s.setIsSessionLoading)
   const setProfile = useAuthStore((s) => s.setProfile)
@@ -170,6 +172,15 @@ function App() {
         <div className="flex w-full flex-col gap-2 px-4 py-3">
           <div className="flex items-center justify-between gap-3">
             <Logo />
+            {!session && (
+              <button
+                type="button"
+                onClick={() => navigate('/auth')}
+                className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-black shadow shadow-emerald-500/40 hover:bg-emerald-400"
+              >
+                Sign in
+              </button>
+            )}
           </div>
           <div className="h-px w-full rounded-full border-t border-dotted border-emerald-500/20" />
         </div>
