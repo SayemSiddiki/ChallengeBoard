@@ -8,6 +8,9 @@ import { SettingsPage } from './screens/SettingsPage'
 import { AuthPage } from './screens/AuthPage'
 import { RulesPage } from './screens/RulesPage'
 import { AuthCallbackPage } from './screens/AuthCallbackPage'
+import { PrivacyPage } from './screens/PrivacyPage'
+import { TermsPage } from './screens/TermsPage'
+import { ContactPage } from './screens/ContactPage'
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +24,9 @@ export const router = createBrowserRouter([
       { path: '/settings', element: <SettingsPage /> },
       { path: '/auth', element: <AuthPage /> },
       { path: '/auth/callback', element: <AuthCallbackPage /> },
+      { path: '/privacy', element: <PrivacyPage /> },
+      { path: '/terms', element: <TermsPage /> },
+      { path: '/contact', element: <ContactPage /> },
     ],
   },
 ])

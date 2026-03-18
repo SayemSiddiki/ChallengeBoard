@@ -6,6 +6,7 @@ import { getSupabaseClient } from './supabaseClient'
 import { useAuthStore } from './store/authStore'
 import { bestEffortNameFromMetadata, getProfile, upsertProfile } from './lib/profile'
 import { ProfileNameModal } from './components/ProfileNameModal'
+import { Footer } from './components/Footer'
 
 function profileFlagKey(userId: string) {
   return `profile-name-set:${userId}`
@@ -210,6 +211,7 @@ function App() {
           <Outlet />
         </div>
       </main>
+      <Footer />
     </div>
   )
 }

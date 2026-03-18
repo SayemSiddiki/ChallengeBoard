@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Layout } from '../components/Layout'
 import { useBoardStore } from '../store/boardStore'
 import { exportDepositsToCsv } from '../utils/csv'
 
 export function HistoryPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const deposits = useBoardStore((s) => s.deposits)
   const theme = useBoardStore((s) => s.theme)
   const updateDepositNote = useBoardStore((s) => s.updateDepositNote)
@@ -137,6 +138,12 @@ export function HistoryPage() {
     setCurrentPage(1)
   }, [selectedMonth, typeFilter, search])
 
+  useEffect(() => {
+    if (location.hash !== '#export') return
+    const el = document.getElementById('export-csv-btn') as HTMLButtonElement | null
+    el?.focus()
+  }, [location.hash])
+
   const handleEditNote = (id: string, currentNote?: string) => {
     const confirmed = window.confirm('Edit note for this deposit?')
     if (!confirmed) return
@@ -241,6 +248,7 @@ export function HistoryPage() {
             </select>
             <button
               type="button"
+              id="export-csv-btn"
               onClick={() => {
                 exportDepositsToCsv(filtered)
                 showToast('CSV exported.', 'success')

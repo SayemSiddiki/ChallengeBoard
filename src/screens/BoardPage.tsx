@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Layout } from '../components/Layout'
 import { GoalBadge } from '../components/GoalBadge'
 import { TileCard } from '../components/TileCard'
@@ -8,6 +9,7 @@ import { useBoardStore } from '../store/boardStore'
 import { CompletionCardModal } from '../components/CompletionCardModal'
 
 export function BoardPage() {
+  const location = useLocation()
   const {
     goalAmount,
     tiles,
@@ -47,6 +49,14 @@ export function BoardPage() {
   )
   const [selectedOutOfOrder, setSelectedOutOfOrder] = useState(false)
   const [highlightTileId, setHighlightTileId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (location.hash !== '#random') return
+    const el = document.getElementById(
+      'random-tile-btn',
+    ) as HTMLButtonElement | null
+    el?.focus()
+  }, [location.hash])
 
   useEffect(() => {
     if (!celebrateKey) return
@@ -271,6 +281,7 @@ export function BoardPage() {
               <button
                 type="button"
                 onClick={handleRandomTile}
+                id="random-tile-btn"
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-800 bg-slate-900 px-3 py-2 text-xs font-medium text-slate-100 transition hover:border-emerald-500 hover:bg-slate-900/90"
               >
                 <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-[0.7rem] text-emerald-300">

@@ -4,9 +4,11 @@ import { Layout } from '../components/Layout'
 import { FooterProgress } from '../components/FooterProgress'
 import { useBoardStore } from '../store/boardStore'
 import { useAuthStore } from '../store/authStore'
+import { useLocation } from 'react-router-dom'
 
 export function HomePage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const guestMode = useBoardStore((s) => s.guestMode)
   const theme = useBoardStore((s) => s.theme)
   const session = useAuthStore((s) => s.session)
@@ -33,12 +35,21 @@ export function HomePage() {
     return () => clearInterval(interval)
   }, [])
 
+  useEffect(() => {
+    if (!location.hash) return
+    const id = location.hash.replace('#', '')
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [location.hash])
+
   const clampedPreviewProgress = Math.min(100, Math.max(0, preview.progress))
 
   return (
     <Layout>
       <div className="flex w-full flex-1 flex-col items-center justify-center gap-10 px-4 py-8 text-center md:flex-row md:text-left">
         <div className="relative z-10 flex-1 space-y-6 fade-up-soft">
+          <div id="how-it-works" />
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-emerald-300">
             <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[0.6rem] text-black">
               $
@@ -139,6 +150,7 @@ export function HomePage() {
           <div className="pointer-events-none absolute -inset-10 rounded-[2.25rem] bg-gradient-to-br from-emerald-500/15 via-cyan-400/10 to-transparent blur-3xl" />
           <div className="pointer-events-none absolute inset-0 translate-y-2 rounded-[2rem] border border-emerald-100/70 bg-emerald-50/50 shadow-lg shadow-emerald-500/10 backdrop-blur-md" />
           <div className="relative overflow-hidden rounded-3xl border border-emerald-100 bg-emerald-50/95 p-6 text-left shadow-xl shadow-emerald-500/25 float-soft sm:p-7">
+            <div id="features" />
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <p className="text-[0.75rem] uppercase tracking-[0.18em] text-slate-500">
