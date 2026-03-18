@@ -7,6 +7,18 @@ import { useAuthStore } from './store/authStore'
 import { bestEffortNameFromMetadata, getProfile, upsertProfile } from './lib/profile'
 import { ProfileNameModal } from './components/ProfileNameModal'
 
+function profileFlagKey(userId: string) {
+  return `profile-name-set:${userId}`
+}
+
+function setSavedNameFlag(userId: string) {
+  try {
+    window.localStorage.setItem(profileFlagKey(userId), '1')
+  } catch {
+    // ignore
+  }
+}
+
 function App() {
   const theme = useBoardStore((s) => s.theme)
   const toast = useBoardStore((s) => s.toast)
@@ -47,6 +59,9 @@ function App() {
         const { profile } = await getProfile(data.session.user.id, supabase)
         if (profile) {
           setProfile(profile)
+          if (profile.first_name && profile.last_name) {
+            setSavedNameFlag(data.session.user.id)
+          }
           setIsProfileLoading(false)
         } else {
           // Attempt to auto-fill from OAuth metadata
@@ -62,6 +77,7 @@ function App() {
               supabase,
             )
             setProfile(saved)
+            setSavedNameFlag(data.session.user.id)
           } else {
             setProfile(null)
           }
@@ -83,6 +99,9 @@ function App() {
           const { profile } = await getProfile(session.user.id, supabase)
           if (profile) {
             setProfile(profile)
+            if (profile.first_name && profile.last_name) {
+              setSavedNameFlag(session.user.id)
+            }
             setIsProfileLoading(false)
           } else {
             const meta = bestEffortNameFromMetadata(session.user.user_metadata)
@@ -97,6 +116,7 @@ function App() {
                 supabase,
               )
               setProfile(saved)
+              setSavedNameFlag(session.user.id)
             } else {
               setProfile(null)
             }

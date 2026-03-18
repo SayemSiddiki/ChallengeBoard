@@ -3,6 +3,26 @@ import { useAuthStore } from '../store/authStore'
 import { upsertProfile } from '../lib/profile'
 import { useBoardStore } from '../store/boardStore'
 
+function profileFlagKey(userId: string) {
+  return `profile-name-set:${userId}`
+}
+
+function hasSavedNameFlag(userId: string) {
+  try {
+    return window.localStorage.getItem(profileFlagKey(userId)) === '1'
+  } catch {
+    return false
+  }
+}
+
+function setSavedNameFlag(userId: string) {
+  try {
+    window.localStorage.setItem(profileFlagKey(userId), '1')
+  } catch {
+    // ignore
+  }
+}
+
 export function ProfileNameModal() {
   const session = useAuthStore((s) => s.session)
   const profile = useAuthStore((s) => s.profile)
@@ -11,7 +31,11 @@ export function ProfileNameModal() {
   const setIsProfileLoading = useAuthStore((s) => s.setIsProfileLoading)
   const showToast = useBoardStore((s) => s.showToast)
 
-  const shouldOpen = !!session && !isProfileLoading && (!profile?.first_name || !profile?.last_name)
+  const shouldOpen =
+    !!session &&
+    !isProfileLoading &&
+    !hasSavedNameFlag(session.user.id) &&
+    (!profile?.first_name || !profile?.last_name)
 
   const initialFirst = useMemo(() => profile?.first_name ?? '', [profile?.first_name])
   const initialLast = useMemo(() => profile?.last_name ?? '', [profile?.last_name])
@@ -43,6 +67,7 @@ export function ProfileNameModal() {
         return
       }
       setProfile(saved)
+      setSavedNameFlag(session.user.id)
       showToast('Profile saved.', 'success')
     } finally {
       setIsProfileLoading(false)
