@@ -1,14 +1,10 @@
 import type { FormEvent } from 'react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Layout } from '../components/Layout'
 import type { Difficulty, ThemeMode } from '../store/boardStore'
 import { useBoardStore } from '../store/boardStore'
-import { useAuthStore } from '../store/authStore'
-import { logout } from '../logout'
 
 export function SettingsPage() {
-  const navigate = useNavigate()
   const {
     goalAmount,
     tileCount,
@@ -26,7 +22,6 @@ export function SettingsPage() {
   >('custom')
   const isDark = theme === 'dark'
   const showToast = useBoardStore((s) => s.showToast)
-  const session = useAuthStore((s) => s.session)
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -270,38 +265,6 @@ export function SettingsPage() {
           </div>
         </form>
 
-        {session && (
-          <div
-            className={[
-              'rounded-2xl border p-4 sm:p-6',
-              isDark
-                ? 'border-slate-900 bg-slate-950/60'
-                : 'border-slate-200 bg-white shadow-sm',
-            ].join(' ')}
-          >
-            <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-              <div>
-                <div className={isDark ? 'text-slate-50 font-semibold' : 'text-slate-900 font-semibold'}>
-                  Account
-                </div>
-                <div className={isDark ? 'text-xs text-slate-400' : 'text-xs text-slate-600'}>
-                  Sign out of this device.
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={async () => {
-                  await logout()
-                  showToast('Signed out successfully.', 'success')
-                  navigate('/home', { replace: true })
-                }}
-                className="inline-flex items-center justify-center rounded-full border border-red-500/40 bg-red-500/10 px-4 py-2 text-xs font-semibold text-red-200 hover:border-red-400 hover:bg-red-500/15"
-              >
-                Sign out
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </Layout>
   )
