@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useBoardStore } from '../store/boardStore'
 
 type LegalPageShellProps = {
   badge?: string
@@ -13,12 +14,32 @@ export function LegalPageShell({
   subtitle,
   children,
 }: LegalPageShellProps) {
+  const theme = useBoardStore((s) => s.theme)
+  const isDark = theme === 'dark'
+
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-6">
-      <div className="relative overflow-hidden rounded-3xl border border-emerald-500/20 bg-gradient-to-b from-emerald-500/10 via-transparent to-transparent p-6 md:p-10">
+      <div
+        className={[
+          'relative overflow-hidden rounded-3xl border bg-gradient-to-b p-6 md:p-10',
+          isDark
+            ? 'border-emerald-500/20 from-emerald-500/10 via-transparent to-transparent'
+            : 'border-emerald-500/25 from-emerald-500/15 via-white/60 to-white/30',
+        ].join(' ')}
+      >
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-20 -top-20 h-64 w-64 animate-pulse rounded-full bg-emerald-500/18 blur-3xl" />
-          <div className="absolute -bottom-24 -right-24 h-80 w-80 animate-pulse rounded-full bg-sky-500/14 blur-3xl [animation-delay:900ms]" />
+          <div
+            className={[
+              'absolute -left-20 -top-20 h-64 w-64 animate-pulse rounded-full blur-3xl',
+              isDark ? 'bg-emerald-500/18' : 'bg-emerald-500/22',
+            ].join(' ')}
+          />
+          <div
+            className={[
+              'absolute -bottom-24 -right-24 h-80 w-80 animate-pulse rounded-full blur-3xl [animation-delay:900ms]',
+              isDark ? 'bg-sky-500/14' : 'bg-sky-500/18',
+            ].join(' ')}
+          />
           <svg
             className="absolute right-6 top-6 h-32 w-32 opacity-40"
             viewBox="0 0 200 200"
@@ -47,17 +68,34 @@ export function LegalPageShell({
         </div>
 
         <div className="relative">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-emerald-200">
+          <div
+            className={[
+              'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.22em]',
+              isDark
+                ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200'
+                : 'border-emerald-600/30 bg-white/70 text-emerald-700 shadow-sm',
+            ].join(' ')}
+          >
             {badge}
             <span className="inline-flex h-1.5 w-1.5 animate-ping rounded-full bg-emerald-400" />
           </div>
 
           <div className="mt-4 space-y-3">
-            <h1 className="text-balance text-2xl font-semibold text-slate-50 md:text-3xl">
+            <h1
+              className={[
+                'text-balance text-2xl font-semibold md:text-3xl',
+                isDark ? 'text-slate-50' : 'text-slate-900',
+              ].join(' ')}
+            >
               {title}
             </h1>
             {subtitle ? (
-              <div className="max-w-3xl text-sm text-slate-300 md:text-base">
+              <div
+                className={[
+                  'max-w-3xl text-sm md:text-base',
+                  isDark ? 'text-slate-300' : 'text-slate-700',
+                ].join(' ')}
+              >
                 {subtitle}
               </div>
             ) : null}

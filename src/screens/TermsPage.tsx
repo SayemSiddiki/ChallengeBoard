@@ -1,7 +1,11 @@
 import { Layout } from '../components/Layout'
 import { LegalPageShell } from '../components/LegalPageShell'
+import { useBoardStore } from '../store/boardStore'
 
 export function TermsPage() {
+  const theme = useBoardStore((s) => s.theme)
+  const isDark = theme === 'dark'
+
   return (
     <Layout>
       <LegalPageShell
@@ -17,8 +21,20 @@ export function TermsPage() {
       >
         <div className="grid gap-4 md:grid-cols-[1fr_0.85fr] md:items-start">
           <div className="space-y-4">
-            <section className="space-y-2 rounded-2xl border border-slate-800 bg-black/30 p-5 text-sm text-slate-300">
-              <h2 className="text-sm font-semibold text-slate-100">
+            <section
+              className={[
+                'space-y-2 rounded-2xl border p-5 text-sm',
+                isDark
+                  ? 'border-slate-800 bg-black/30 text-slate-300'
+                  : 'border-slate-200 bg-white/75 text-slate-700 shadow-sm',
+              ].join(' ')}
+            >
+              <h2
+                className={[
+                  'text-sm font-semibold',
+                  isDark ? 'text-slate-100' : 'text-slate-900',
+                ].join(' ')}
+              >
                 1. AS IS SERVICE
               </h2>
               <p>
@@ -28,8 +44,20 @@ export function TermsPage() {
               </p>
             </section>
 
-            <section className="space-y-2 rounded-2xl border border-slate-800 bg-black/30 p-5 text-sm text-slate-300">
-              <h2 className="text-sm font-semibold text-slate-100">
+            <section
+              className={[
+                'space-y-2 rounded-2xl border p-5 text-sm',
+                isDark
+                  ? 'border-slate-800 bg-black/30 text-slate-300'
+                  : 'border-slate-200 bg-white/75 text-slate-700 shadow-sm',
+              ].join(' ')}
+            >
+              <h2
+                className={[
+                  'text-sm font-semibold',
+                  isDark ? 'text-slate-100' : 'text-slate-900',
+                ].join(' ')}
+              >
                 2. TRACKER ONLY
               </h2>
               <p>
@@ -40,8 +68,20 @@ export function TermsPage() {
               </p>
             </section>
 
-            <section className="space-y-2 rounded-2xl border border-slate-800 bg-black/30 p-5 text-sm text-slate-300">
-              <h2 className="text-sm font-semibold text-slate-100">
+            <section
+              className={[
+                'space-y-2 rounded-2xl border p-5 text-sm',
+                isDark
+                  ? 'border-slate-800 bg-black/30 text-slate-300'
+                  : 'border-slate-200 bg-white/75 text-slate-700 shadow-sm',
+              ].join(' ')}
+            >
+              <h2
+                className={[
+                  'text-sm font-semibold',
+                  isDark ? 'text-slate-100' : 'text-slate-900',
+                ].join(' ')}
+              >
                 3. YOUR RESPONSIBILITY
               </h2>
               <p>
@@ -52,8 +92,20 @@ export function TermsPage() {
               </p>
             </section>
 
-            <section className="space-y-2 rounded-2xl border border-slate-800 bg-black/30 p-5 text-sm text-slate-300">
-              <h2 className="text-sm font-semibold text-slate-100">
+            <section
+              className={[
+                'space-y-2 rounded-2xl border p-5 text-sm',
+                isDark
+                  ? 'border-slate-800 bg-black/30 text-slate-300'
+                  : 'border-slate-200 bg-white/75 text-slate-700 shadow-sm',
+              ].join(' ')}
+            >
+              <h2
+                className={[
+                  'text-sm font-semibold',
+                  isDark ? 'text-slate-100' : 'text-slate-900',
+                ].join(' ')}
+              >
                 4. NO FINANCIAL ADVICE
               </h2>
               <p>
@@ -62,8 +114,20 @@ export function TermsPage() {
               </p>
             </section>
 
-            <section className="space-y-2 rounded-2xl border border-slate-800 bg-black/30 p-5 text-sm text-slate-300">
-              <h2 className="text-sm font-semibold text-slate-100">
+            <section
+              className={[
+                'space-y-2 rounded-2xl border p-5 text-sm',
+                isDark
+                  ? 'border-slate-800 bg-black/30 text-slate-300'
+                  : 'border-slate-200 bg-white/75 text-slate-700 shadow-sm',
+              ].join(' ')}
+            >
+              <h2
+                className={[
+                  'text-sm font-semibold',
+                  isDark ? 'text-slate-100' : 'text-slate-900',
+                ].join(' ')}
+              >
                 5. ACCURACY OF INFORMATION
               </h2>
               <p>
@@ -73,8 +137,20 @@ export function TermsPage() {
               </p>
             </section>
 
-            <section className="space-y-2 rounded-2xl border border-slate-800 bg-black/30 p-5 text-sm text-slate-300">
-              <h2 className="text-sm font-semibold text-slate-100">
+            <section
+              className={[
+                'space-y-2 rounded-2xl border p-5 text-sm',
+                isDark
+                  ? 'border-slate-800 bg-black/30 text-slate-300'
+                  : 'border-slate-200 bg-white/75 text-slate-700 shadow-sm',
+              ].join(' ')}
+            >
+              <h2
+                className={[
+                  'text-sm font-semibold',
+                  isDark ? 'text-slate-100' : 'text-slate-900',
+                ].join(' ')}
+              >
                 6. LIMITATION OF LIABILITY
               </h2>
               <p>
@@ -85,8 +161,22 @@ export function TermsPage() {
               </p>
             </section>
 
-            <section className="space-y-2 rounded-2xl border border-slate-800 bg-black/30 p-5 text-sm text-slate-300">
-              <h2 className="text-sm font-semibold text-slate-100">7. CHANGES</h2>
+            <section
+              className={[
+                'space-y-2 rounded-2xl border p-5 text-sm',
+                isDark
+                  ? 'border-slate-800 bg-black/30 text-slate-300'
+                  : 'border-slate-200 bg-white/75 text-slate-700 shadow-sm',
+              ].join(' ')}
+            >
+              <h2
+                className={[
+                  'text-sm font-semibold',
+                  isDark ? 'text-slate-100' : 'text-slate-900',
+                ].join(' ')}
+              >
+                7. CHANGES
+              </h2>
               <p>
                 We may update these Terms at any time. Continued use of the
                 website after changes means you accept the updated Terms.
@@ -95,11 +185,28 @@ export function TermsPage() {
           </div>
 
           <aside className="space-y-4">
-            <div className="rounded-2xl border border-slate-800 bg-black/30 p-5">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+            <div
+              className={[
+                'rounded-2xl border p-5',
+                isDark
+                  ? 'border-slate-800 bg-black/30'
+                  : 'border-slate-200 bg-white/75 shadow-sm',
+              ].join(' ')}
+            >
+              <div
+                className={[
+                  'text-xs font-semibold uppercase tracking-[0.2em]',
+                  isDark ? 'text-slate-400' : 'text-slate-500',
+                ].join(' ')}
+              >
                 Quick summary
               </div>
-              <ul className="mt-3 space-y-2 text-sm text-slate-300">
+              <ul
+                className={[
+                  'mt-3 space-y-2 text-sm',
+                  isDark ? 'text-slate-300' : 'text-slate-700',
+                ].join(' ')}
+              >
                 <li className="flex gap-2">
                   <span className="mt-1 h-2 w-2 rounded-full bg-emerald-400/80" />
                   Tracker only — no bank connection
@@ -115,17 +222,32 @@ export function TermsPage() {
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-5">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-200">
-                Website
+            <div
+              className={[
+                'rounded-2xl border p-5',
+                isDark
+                  ? 'border-emerald-500/20 bg-emerald-500/10'
+                  : 'border-emerald-600/25 bg-white/70 shadow-sm',
+              ].join(' ')}
+            >
+              <div
+                className={[
+                  'text-xs font-semibold uppercase tracking-[0.2em]',
+                  isDark ? 'text-emerald-200' : 'text-emerald-700',
+                ].join(' ')}
+              >
+                Contact
               </div>
               <a
-                className="mt-2 inline-block text-sm font-semibold text-emerald-100 underline underline-offset-4 hover:text-emerald-50"
-                href="https://challangeboard.com"
-                target="_blank"
-                rel="noreferrer"
+                className={[
+                  'mt-2 inline-block text-sm font-semibold underline underline-offset-4',
+                  isDark
+                    ? 'text-emerald-100 hover:text-emerald-50'
+                    : 'text-emerald-800 hover:text-emerald-700',
+                ].join(' ')}
+                href="mailto:challangeboard@gmail.com"
               >
-                challangeboard.com
+                challangeboard@gmail.com
               </a>
             </div>
           </aside>

@@ -1,13 +1,34 @@
 import { Layout } from '../components/Layout'
+import { useBoardStore } from '../store/boardStore'
 
 export function ContactPage() {
+  const theme = useBoardStore((s) => s.theme)
+  const isDark = theme === 'dark'
+
   return (
     <Layout>
       <div className="mx-auto w-full max-w-5xl px-4 py-6">
-        <div className="relative overflow-hidden rounded-3xl border border-emerald-500/25 bg-gradient-to-b from-emerald-500/10 via-transparent to-transparent p-6 md:p-10">
+        <div
+          className={[
+            'relative overflow-hidden rounded-3xl border bg-gradient-to-b p-6 md:p-10',
+            isDark
+              ? 'border-emerald-500/25 from-emerald-500/10 via-transparent to-transparent'
+              : 'border-emerald-500/25 from-emerald-500/15 via-white/60 to-white/30',
+          ].join(' ')}
+        >
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute -left-16 -top-16 h-56 w-56 animate-pulse rounded-full bg-emerald-500/20 blur-3xl" />
-            <div className="absolute -bottom-20 -right-20 h-72 w-72 animate-pulse rounded-full bg-sky-500/15 blur-3xl [animation-delay:900ms]" />
+            <div
+              className={[
+                'absolute -left-16 -top-16 h-56 w-56 animate-pulse rounded-full blur-3xl',
+                isDark ? 'bg-emerald-500/20' : 'bg-emerald-500/24',
+              ].join(' ')}
+            />
+            <div
+              className={[
+                'absolute -bottom-20 -right-20 h-72 w-72 animate-pulse rounded-full blur-3xl [animation-delay:900ms]',
+                isDark ? 'bg-sky-500/15' : 'bg-sky-500/20',
+              ].join(' ')}
+            />
             <svg
               className="absolute right-6 top-6 h-32 w-32 opacity-40"
               viewBox="0 0 200 200"
@@ -36,17 +57,34 @@ export function ContactPage() {
           </div>
 
           <div className="relative">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-emerald-200">
+            <div
+              className={[
+                'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.22em]',
+                isDark
+                  ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200'
+                  : 'border-emerald-600/30 bg-white/70 text-emerald-700 shadow-sm',
+              ].join(' ')}
+            >
               Support
               <span className="inline-flex h-1.5 w-1.5 animate-ping rounded-full bg-emerald-400" />
             </div>
 
             <div className="mt-4 grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:items-start">
               <div className="space-y-4">
-                <h1 className="text-balance text-2xl font-semibold text-slate-50 md:text-3xl">
+                <h1
+                  className={[
+                    'text-balance text-2xl font-semibold md:text-3xl',
+                    isDark ? 'text-slate-50' : 'text-slate-900',
+                  ].join(' ')}
+                >
                   Contact Challenge Board
                 </h1>
-                <p className="max-w-2xl text-sm text-slate-300 md:text-base">
+                <p
+                  className={[
+                    'max-w-2xl text-sm md:text-base',
+                    isDark ? 'text-slate-300' : 'text-slate-700',
+                  ].join(' ')}
+                >
                   Need help, found a bug, or want to share feedback? Send us an
                   email and we’ll get back to you.
                 </p>
@@ -59,7 +97,12 @@ export function ContactPage() {
                     Email us
                   </a>
                   <a
-                    className="inline-flex items-center justify-center rounded-full border border-emerald-500/30 bg-black/20 px-4 py-2 text-sm font-semibold text-emerald-200 transition-colors hover:bg-black/35"
+                    className={[
+                      'inline-flex items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold transition-colors',
+                      isDark
+                        ? 'border-emerald-500/30 bg-black/20 text-emerald-200 hover:bg-black/35'
+                        : 'border-emerald-600/25 bg-white/70 text-emerald-800 hover:bg-white',
+                    ].join(' ')}
                     href="mailto:challangeboard@gmail.com"
                   >
                     challangeboard@gmail.com
@@ -67,27 +110,78 @@ export function ContactPage() {
                 </div>
 
                 <div className="grid gap-3 pt-2 sm:grid-cols-3">
-                  <div className="rounded-2xl border border-slate-800 bg-black/30 p-4">
-                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  <div
+                    className={[
+                      'rounded-2xl border p-4',
+                      isDark
+                        ? 'border-slate-800 bg-black/30'
+                        : 'border-slate-200 bg-white/75 shadow-sm',
+                    ].join(' ')}
+                  >
+                    <div
+                      className={[
+                        'text-xs font-semibold uppercase tracking-[0.2em]',
+                        isDark ? 'text-slate-400' : 'text-slate-500',
+                      ].join(' ')}
+                    >
                       Replies
                     </div>
-                    <div className="mt-1 text-sm font-semibold text-slate-100">
+                    <div
+                      className={[
+                        'mt-1 text-sm font-semibold',
+                        isDark ? 'text-slate-100' : 'text-slate-900',
+                      ].join(' ')}
+                    >
                       Within 24–48 hours
                     </div>
                   </div>
-                  <div className="rounded-2xl border border-slate-800 bg-black/30 p-4">
-                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  <div
+                    className={[
+                      'rounded-2xl border p-4',
+                      isDark
+                        ? 'border-slate-800 bg-black/30'
+                        : 'border-slate-200 bg-white/75 shadow-sm',
+                    ].join(' ')}
+                  >
+                    <div
+                      className={[
+                        'text-xs font-semibold uppercase tracking-[0.2em]',
+                        isDark ? 'text-slate-400' : 'text-slate-500',
+                      ].join(' ')}
+                    >
                       Best for
                     </div>
-                    <div className="mt-1 text-sm font-semibold text-slate-100">
+                    <div
+                      className={[
+                        'mt-1 text-sm font-semibold',
+                        isDark ? 'text-slate-100' : 'text-slate-900',
+                      ].join(' ')}
+                    >
                       Support & feedback
                     </div>
                   </div>
-                  <div className="rounded-2xl border border-slate-800 bg-black/30 p-4">
-                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  <div
+                    className={[
+                      'rounded-2xl border p-4',
+                      isDark
+                        ? 'border-slate-800 bg-black/30'
+                        : 'border-slate-200 bg-white/75 shadow-sm',
+                    ].join(' ')}
+                  >
+                    <div
+                      className={[
+                        'text-xs font-semibold uppercase tracking-[0.2em]',
+                        isDark ? 'text-slate-400' : 'text-slate-500',
+                      ].join(' ')}
+                    >
                       Include
                     </div>
-                    <div className="mt-1 text-sm font-semibold text-slate-100">
+                    <div
+                      className={[
+                        'mt-1 text-sm font-semibold',
+                        isDark ? 'text-slate-100' : 'text-slate-900',
+                      ].join(' ')}
+                    >
                       Screenshot + device
                     </div>
                   </div>
@@ -95,16 +189,38 @@ export function ContactPage() {
               </div>
 
               <div className="grid gap-4">
-                <div className="rounded-2xl border border-slate-800 bg-black/30 p-4">
+                <div
+                  className={[
+                    'rounded-2xl border p-4',
+                    isDark
+                      ? 'border-slate-800 bg-black/30'
+                      : 'border-slate-200 bg-white/75 shadow-sm',
+                  ].join(' ')}
+                >
                   <div className="flex items-center justify-between gap-2">
-                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                    <div
+                      className={[
+                        'text-xs font-semibold uppercase tracking-[0.2em]',
+                        isDark ? 'text-slate-400' : 'text-slate-500',
+                      ].join(' ')}
+                    >
                       Quick tips
                     </div>
-                    <span className="text-xs font-semibold text-emerald-200">
+                    <span
+                      className={[
+                        'text-xs font-semibold',
+                        isDark ? 'text-emerald-200' : 'text-emerald-700',
+                      ].join(' ')}
+                    >
                       Helps us respond faster
                     </span>
                   </div>
-                  <ul className="mt-3 space-y-2 text-sm text-slate-300">
+                  <ul
+                    className={[
+                      'mt-3 space-y-2 text-sm',
+                      isDark ? 'text-slate-300' : 'text-slate-700',
+                    ].join(' ')}
+                  >
                     <li className="flex gap-2">
                       <span className="mt-1 h-2 w-2 rounded-full bg-emerald-400/80" />
                       What you were trying to do
@@ -120,7 +236,14 @@ export function ContactPage() {
                   </ul>
                 </div>
 
-                <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-black/30 p-4">
+                <div
+                  className={[
+                    'relative overflow-hidden rounded-2xl border p-4',
+                    isDark
+                      ? 'border-slate-800 bg-black/30'
+                      : 'border-slate-200 bg-white/75 shadow-sm',
+                  ].join(' ')}
+                >
                   <div className="pointer-events-none absolute inset-0 opacity-60">
                     <svg
                       className="absolute -right-8 -top-8 h-40 w-40 animate-[spin_16s_linear_infinite]"
@@ -152,10 +275,20 @@ export function ContactPage() {
                   </div>
 
                   <div className="relative">
-                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                    <div
+                      className={[
+                        'text-xs font-semibold uppercase tracking-[0.2em]',
+                        isDark ? 'text-slate-400' : 'text-slate-500',
+                      ].join(' ')}
+                    >
                       A note
                     </div>
-                    <p className="mt-2 text-sm text-slate-300">
+                    <p
+                      className={[
+                        'mt-2 text-sm',
+                        isDark ? 'text-slate-300' : 'text-slate-700',
+                      ].join(' ')}
+                    >
                       Challenge Board is a tracking tool only and doesn’t connect
                       to your bank. If something looks wrong, always confirm your
                       real balance inside your banking app.
