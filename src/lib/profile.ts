@@ -50,7 +50,24 @@ export async function upsertProfile(
     .select('id, first_name, last_name, full_name, avatar_url, updated_at')
     .maybeSingle()
 
-  return { profile: (data as Profile | null) ?? null, error }
+  // If RLS blocks returning/selecting, Supabase can succeed with no row returned.
+  // In that case, still provide a best-effort local profile so UI can proceed.
+  const profile = (data as Profile | null) ?? null
+  if (!error && !profile) {
+    return {
+      profile: {
+        id: userId,
+        first_name: first,
+        last_name: last,
+        full_name: full,
+        avatar_url: input.avatar_url ?? null,
+        updated_at: null,
+      },
+      error: null,
+    }
+  }
+
+  return { profile, error }
 }
 
 export function bestEffortNameFromMetadata(metadata: any): {
