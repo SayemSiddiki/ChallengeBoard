@@ -22,6 +22,7 @@ function setSavedNameFlag(userId: string) {
 
 function App() {
   const theme = useBoardStore((s) => s.theme)
+  const setTheme = useBoardStore((s) => s.setTheme)
   const toast = useBoardStore((s) => s.toast)
   const clearToast = useBoardStore((s) => s.clearToast)
   const setGuestMode = useBoardStore((s) => s.setGuestMode)
@@ -193,15 +194,54 @@ function App() {
         <div className="flex w-full flex-col gap-2 px-4 py-3">
           <div className="flex items-center justify-between gap-3">
             <Logo />
-            {!session && (
+            <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => navigate('/auth')}
-                className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-black shadow shadow-emerald-500/40 hover:bg-emerald-400"
+                onClick={() => setTheme(isDark ? 'light' : 'dark')}
+                className={[
+                  'group relative inline-flex h-8 w-32 items-center rounded-full border px-1 transition-colors',
+                  'focus:outline-none focus:ring-2 focus:ring-emerald-500/60 focus:ring-offset-2 focus:ring-offset-black',
+                  isDark
+                    ? 'border-slate-800 bg-slate-950 text-slate-200'
+                    : 'border-slate-200 bg-white text-slate-700',
+                ].join(' ')}
+                aria-label={
+                  isDark ? 'Switch to light theme' : 'Switch to dark theme'
+                }
               >
-                Sign in
+                <span
+                  className={[
+                    'absolute left-1 top-1 h-6 w-[3.6rem] rounded-full bg-emerald-500 shadow transition-all duration-300 ease-out',
+                    isDark ? 'translate-x-0' : 'translate-x-[3.7rem]',
+                  ].join(' ')}
+                />
+                <span
+                  className={[
+                    'relative z-10 flex-1 text-center text-[0.65rem] font-semibold transition-colors',
+                    isDark ? 'text-black' : 'text-slate-500',
+                  ].join(' ')}
+                >
+                  Dark
+                </span>
+                <span
+                  className={[
+                    'relative z-10 flex-1 text-center text-[0.65rem] font-semibold transition-colors',
+                    isDark ? 'text-slate-400' : 'text-black',
+                  ].join(' ')}
+                >
+                  Light
+                </span>
               </button>
-            )}
+              {!session && (
+                <button
+                  type="button"
+                  onClick={() => navigate('/auth')}
+                  className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-black shadow shadow-emerald-500/40 hover:bg-emerald-400"
+                >
+                  Sign in
+                </button>
+              )}
+            </div>
           </div>
           <div className="h-px w-full rounded-full border-t border-dotted border-emerald-500/20" />
         </div>
