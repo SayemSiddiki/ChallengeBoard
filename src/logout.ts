@@ -26,7 +26,6 @@ export async function logout() {
     } catch {
       // ignore
     }
-    window.location.reload()
   }
 }
 

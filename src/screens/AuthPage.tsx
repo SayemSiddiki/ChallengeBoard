@@ -1,10 +1,13 @@
 import type { FormEvent } from 'react'
 import { useEffect, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Layout } from '../components/Layout'
 import { getSupabaseClient } from '../supabaseClient'
 
 export function AuthPage() {
   const supabase = getSupabaseClient()
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -14,6 +17,19 @@ export function AuthPage() {
   useEffect(() => {
     setEnabled(!!supabase)
   }, [supabase])
+
+  useEffect(() => {
+    const oauth = searchParams.get('oauth')
+    if (!oauth) return
+    if (oauth === 'cancelled') {
+      setError('Login cancelled.')
+    } else {
+      setError('Login failed. Please try again.')
+    }
+    // Clear the param so refresh doesn't repeat the message
+    navigate('/auth', { replace: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (cooldown <= 0) return
@@ -34,7 +50,7 @@ export function AuthPage() {
     const { error: supaError } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: window.location.origin + '/board',
+        redirectTo: window.location.origin + '/auth/callback',
       },
     })
 

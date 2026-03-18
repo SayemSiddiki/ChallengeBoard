@@ -1,7 +1,7 @@
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import { useBoardStore } from '../store/boardStore'
-import { getSupabaseClient } from '../supabaseClient'
+import { useAuthStore } from '../store/authStore'
 
 const navItems = [
   { to: '/home', label: 'Home' },
@@ -12,21 +12,17 @@ const navItems = [
 
 export function Layout({ children }: { children: ReactNode }) {
   const location = useLocation()
-  const navigate = useNavigate()
   const theme = useBoardStore((s) => s.theme)
-  const guestMode = useBoardStore((s) => s.guestMode)
-  const setGuestMode = useBoardStore((s) => s.setGuestMode)
-  const showToast = useBoardStore((s) => s.showToast)
+  const session = useAuthStore((s) => s.session)
+  const isSessionLoading = useAuthStore((s) => s.isSessionLoading)
+  const profile = useAuthStore((s) => s.profile)
+  const isProfileLoading = useAuthStore((s) => s.isProfileLoading)
   const isDark = theme === 'dark'
 
-  const handleSignOut = async () => {
-    const supabase = getSupabaseClient()
-    if (supabase) {
-      await supabase.auth.signOut()
-    }
-    setGuestMode(true)
-    showToast('Signed out successfully.', 'success')
-  }
+  const displayName =
+    profile?.full_name?.trim() ||
+    [profile?.first_name, profile?.last_name].filter(Boolean).join(' ').trim() ||
+    null
 
   return (
     <div className="flex min-h-[calc(100vh-4.5rem)] w-full flex-col px-4 py-6">
@@ -73,41 +69,23 @@ export function Layout({ children }: { children: ReactNode }) {
               ? 'Welcome'
               : location.pathname.replace('/', '').toUpperCase()}
           </span>
-          <div
-            className={[
-              'inline-flex items-center gap-2 rounded-full border px-3 py-1',
-              isDark
-                ? 'border-slate-800 bg-slate-900/80 text-slate-200'
-                : 'border-slate-200 bg-white text-slate-700',
-            ].join(' ')}
-          >
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 text-[0.7rem] font-semibold text-emerald-400">
-              $
-            </span>
-            {guestMode ? (
-              <>
-                <span className="hidden sm:inline">Guest mode</span>
-                <button
-                  type="button"
-                  onClick={() => navigate('/auth')}
-                  className="rounded-full bg-emerald-500 px-2.5 py-0.5 text-[0.7rem] font-semibold text-black hover:bg-emerald-400"
-                >
-                  Sign in
-                </button>
-              </>
-            ) : (
-              <>
-                <span className="hidden sm:inline">Signed in</span>
-                <button
-                  type="button"
-                  onClick={handleSignOut}
-                  className="rounded-full border border-slate-400 px-2.5 py-0.5 text-[0.7rem] font-medium hover:border-red-400 hover:text-red-500"
-                >
-                  Sign out
-                </button>
-              </>
-            )}
-          </div>
+          {session && (
+            <div
+              className={[
+                'inline-flex items-center gap-2 rounded-full border px-3 py-1',
+                isDark
+                  ? 'border-slate-800 bg-slate-900/80 text-slate-200'
+                  : 'border-slate-200 bg-white text-slate-700',
+              ].join(' ')}
+            >
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 text-[0.7rem] font-semibold text-emerald-400">
+                $
+              </span>
+              <span className="font-medium">
+                {isSessionLoading || isProfileLoading ? 'Loading…' : displayName || 'Loading…'}
+              </span>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex-1">{children}</div>

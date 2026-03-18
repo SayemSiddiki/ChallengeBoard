@@ -3,7 +3,9 @@ import { useEffect } from 'react'
 import { useBoardStore, loadBoardStateForCurrentUser } from './store/boardStore'
 import { Logo } from './components/logo'
 import { getSupabaseClient } from './supabaseClient'
-import { logout } from './logout'
+import { useAuthStore } from './store/authStore'
+import { bestEffortNameFromMetadata, getProfile, upsertProfile } from './lib/profile'
+import { ProfileNameModal } from './components/ProfileNameModal'
 
 function App() {
   const theme = useBoardStore((s) => s.theme)
@@ -12,29 +14,94 @@ function App() {
   const setGuestMode = useBoardStore((s) => s.setGuestMode)
   const location = useLocation()
 
+  const setSession = useAuthStore((s) => s.setSession)
+  const setIsSessionLoading = useAuthStore((s) => s.setIsSessionLoading)
+  const setProfile = useAuthStore((s) => s.setProfile)
+  const setIsProfileLoading = useAuthStore((s) => s.setIsProfileLoading)
+
   const isDark = theme === 'dark'
 
   useEffect(() => {
     const supabase = getSupabaseClient()
     if (!supabase) {
       setGuestMode(true)
+      setSession(null)
+      setProfile(null)
+      setIsSessionLoading(false)
       return
     }
 
-    supabase.auth.getUser().then(async ({ data }) => {
-      const isLoggedIn = !!data.user
-      setGuestMode(!isLoggedIn)
-      if (isLoggedIn) {
+    ;(async () => {
+      setIsSessionLoading(true)
+      const { data } = await supabase.auth.getSession()
+      setSession(data.session)
+      setGuestMode(!data.session)
+      setIsSessionLoading(false)
+
+      if (data.session) {
         await loadBoardStateForCurrentUser()
+
+        setIsProfileLoading(true)
+        const { profile } = await getProfile(data.session.user.id, supabase)
+        if (profile) {
+          setProfile(profile)
+          setIsProfileLoading(false)
+        } else {
+          // Attempt to auto-fill from OAuth metadata
+          const meta = bestEffortNameFromMetadata(data.session.user.user_metadata)
+          if (meta.first_name && meta.last_name) {
+            const { profile: saved } = await upsertProfile(
+              data.session.user.id,
+              {
+                first_name: meta.first_name,
+                last_name: meta.last_name,
+                avatar_url: meta.avatar_url,
+              },
+              supabase,
+            )
+            setProfile(saved)
+          } else {
+            setProfile(null)
+          }
+          setIsProfileLoading(false)
+        }
+      } else {
+        setProfile(null)
       }
-    })
+    })()
 
     const { data: sub } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
-        const isLoggedIn = !!session
-        setGuestMode(!isLoggedIn)
-        if (isLoggedIn) {
+        setSession(session)
+        setGuestMode(!session)
+        if (session) {
           await loadBoardStateForCurrentUser()
+
+          setIsProfileLoading(true)
+          const { profile } = await getProfile(session.user.id, supabase)
+          if (profile) {
+            setProfile(profile)
+            setIsProfileLoading(false)
+          } else {
+            const meta = bestEffortNameFromMetadata(session.user.user_metadata)
+            if (meta.first_name && meta.last_name) {
+              const { profile: saved } = await upsertProfile(
+                session.user.id,
+                {
+                  first_name: meta.first_name,
+                  last_name: meta.last_name,
+                  avatar_url: meta.avatar_url,
+                },
+                supabase,
+              )
+              setProfile(saved)
+            } else {
+              setProfile(null)
+            }
+            setIsProfileLoading(false)
+          }
+        } else {
+          setProfile(null)
         }
       },
     )
@@ -42,7 +109,7 @@ function App() {
     return () => {
       sub.subscription.unsubscribe()
     }
-  }, [setGuestMode])
+  }, [setGuestMode, setIsProfileLoading, setIsSessionLoading, setProfile, setSession])
 
   useEffect(() => {
     if (!toast) return
@@ -59,6 +126,7 @@ function App() {
         isDark ? 'bg-black text-slate-50' : 'bg-emerald-50 text-slate-900',
       ].join(' ')}
     >
+      <ProfileNameModal />
       {!isDark && (
         <>
           <div className="app-bg-gradient-light" />
@@ -102,13 +170,6 @@ function App() {
         <div className="flex w-full flex-col gap-2 px-4 py-3">
           <div className="flex items-center justify-between gap-3">
             <Logo />
-            <button
-              type="button"
-              onClick={logout}
-              className="inline-flex items-center justify-center rounded-full border border-slate-600 bg-slate-900 px-3 py-1 text-xs font-medium text-slate-200 hover:border-slate-400 hover:bg-slate-800"
-            >
-              Sign out
-            </button>
           </div>
           <div className="h-px w-full rounded-full border-t border-dotted border-emerald-500/20" />
         </div>

@@ -7,6 +7,7 @@ import { HistoryPage } from './screens/HistoryPage'
 import { SettingsPage } from './screens/SettingsPage'
 import { AuthPage } from './screens/AuthPage'
 import { RulesPage } from './screens/RulesPage'
+import { AuthCallbackPage } from './screens/AuthCallbackPage'
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ export const router = createBrowserRouter([
       { path: '/history', element: <HistoryPage /> },
       { path: '/settings', element: <SettingsPage /> },
       { path: '/auth', element: <AuthPage /> },
+      { path: '/auth/callback', element: <AuthCallbackPage /> },
     ],
   },
 ])
