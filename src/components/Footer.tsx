@@ -119,7 +119,7 @@ export function Footer() {
               <Instagram className="h-4 w-4" />
             </a>
             <a
-              href="mailto:hello@challengeboard.app"
+              href="mailto:challangeboard@gmail.com"
               aria-label="Email"
               className="text-slate-400 hover:text-emerald-300"
             >

@@ -54,15 +54,15 @@ export function ContactPage() {
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                   <a
                     className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-black shadow shadow-emerald-500/35 transition-transform hover:-translate-y-0.5 hover:bg-emerald-400"
-                    href="mailto:challangeboard2gmail.com"
+                    href="mailto:challangeboard@gmail.com"
                   >
                     Email us
                   </a>
                   <a
                     className="inline-flex items-center justify-center rounded-full border border-emerald-500/30 bg-black/20 px-4 py-2 text-sm font-semibold text-emerald-200 transition-colors hover:bg-black/35"
-                    href="mailto:challangeboard2gmail.com"
+                    href="mailto:challangeboard@gmail.com"
                   >
-                    challangeboard2gmail.com
+                    challangeboard@gmail.com
                   </a>
                 </div>
 

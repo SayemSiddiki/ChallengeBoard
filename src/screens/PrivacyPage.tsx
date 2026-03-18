@@ -1,13 +1,29 @@
 import { Layout } from '../components/Layout'
+import { LegalPageShell } from '../components/LegalPageShell'
 
 export function PrivacyPage() {
   return (
     <Layout>
-      <article className="mx-auto max-w-3xl space-y-6">
-        <header className="space-y-2">
-          <h1 className="text-xl font-semibold text-slate-50">Privacy Policy</h1>
-          <p className="text-sm text-slate-400">Last updated: March 18, 2026</p>
-        </header>
+      <LegalPageShell
+        badge="Privacy"
+        title="Privacy Policy"
+        subtitle={
+          <>
+            Last updated: <span className="font-semibold">March 18, 2026</span>. This
+            policy explains what data we collect and how it’s used on{' '}
+            <a
+              className="font-semibold text-emerald-200 underline underline-offset-4 hover:text-emerald-100"
+              href="https://challangeboard.com"
+              target="_blank"
+              rel="noreferrer"
+            >
+              challangeboard.com
+            </a>
+            .
+          </>
+        }
+      >
+        <article className="space-y-6 rounded-2xl border border-slate-800 bg-black/30 p-5">
 
         <section className="space-y-2">
           <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-300">
@@ -270,7 +286,8 @@ export function PrivacyPage() {
             .
           </p>
         </section>
-      </article>
+        </article>
+      </LegalPageShell>
     </Layout>
   )
 }
