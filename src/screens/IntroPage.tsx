@@ -101,7 +101,7 @@ export function IntroPage() {
       <div className="w-full max-w-3xl mx-auto flex flex-col items-center text-center text-slate-100">
         <p className="mb-6">
           <span
-            className="quote-shimmer text-3xl sm:text-4xl md:text-5xl leading-tight whitespace-nowrap text-white"
+            className="quote-shimmer block max-w-[18ch] text-2xl leading-tight text-white sm:max-w-none sm:text-4xl md:text-5xl"
             style={{ fontFamily: 'Rooster' }}
           >
             &ldquo;Protect your king and your pieces, protect your cash and your savings.&rdquo;
