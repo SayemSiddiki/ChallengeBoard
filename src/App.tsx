@@ -5,7 +5,7 @@ import { Logo } from './components/logo'
 import { getSupabaseClient } from './supabaseClient'
 import { useAuthStore } from './store/authStore'
 import { useBudgetStore } from './store/budgetStore'
-import { bestEffortNameFromMetadata, getProfile, upsertProfile } from './lib/profile'
+import { getProfile } from './lib/profile'
 import { ProfileNameModal } from './components/ProfileNameModal'
 import { Footer } from './components/Footer'
 
@@ -101,35 +101,23 @@ function App() {
         await loadBoardStateForCurrentUser()
 
         setIsProfileLoading(true)
-        const { profile } = await getProfile(data.session.user.id, supabase)
-        if (profile) {
-          setProfile(profile)
-          if (profile.first_name && profile.last_name) {
-            setSavedNameFlag(data.session.user.id)
-          }
-          setIsProfileLoading(false)
-        } else {
-          // Attempt to auto-fill from OAuth metadata
-          const meta = bestEffortNameFromMetadata(data.session.user.user_metadata)
-          if (meta.first_name && meta.last_name) {
-            const { profile: saved } = await upsertProfile(
-              data.session.user.id,
-              {
-                first_name: meta.first_name,
-                last_name: meta.last_name,
-                avatar_url: meta.avatar_url,
-              },
-              supabase,
-            )
-            setProfile(saved)
-            setSavedNameFlag(data.session.user.id)
+        try {
+          const { profile } = await getProfile(data.session.user.id, supabase)
+          if (profile) {
+            setProfile(profile)
+            if (profile.first_name && profile.last_name) {
+              setSavedNameFlag(data.session.user.id)
+            }
           } else {
+            // Require explicit user input in ProfileNameModal for first/last name and avatar.
             setProfile(null)
           }
+        } finally {
           setIsProfileLoading(false)
         }
       } else {
         setProfile(null)
+        setIsProfileLoading(false)
       }
     })()
 
@@ -141,34 +129,23 @@ function App() {
           await loadBoardStateForCurrentUser()
 
           setIsProfileLoading(true)
-          const { profile } = await getProfile(session.user.id, supabase)
-          if (profile) {
-            setProfile(profile)
-            if (profile.first_name && profile.last_name) {
-              setSavedNameFlag(session.user.id)
-            }
-            setIsProfileLoading(false)
-          } else {
-            const meta = bestEffortNameFromMetadata(session.user.user_metadata)
-            if (meta.first_name && meta.last_name) {
-              const { profile: saved } = await upsertProfile(
-                session.user.id,
-                {
-                  first_name: meta.first_name,
-                  last_name: meta.last_name,
-                  avatar_url: meta.avatar_url,
-                },
-                supabase,
-              )
-              setProfile(saved)
-              setSavedNameFlag(session.user.id)
+          try {
+            const { profile } = await getProfile(session.user.id, supabase)
+            if (profile) {
+              setProfile(profile)
+              if (profile.first_name && profile.last_name) {
+                setSavedNameFlag(session.user.id)
+              }
             } else {
+              // Require explicit user input in ProfileNameModal for first/last name and avatar.
               setProfile(null)
             }
+          } finally {
             setIsProfileLoading(false)
           }
         } else {
           setProfile(null)
+          setIsProfileLoading(false)
         }
       },
     )
