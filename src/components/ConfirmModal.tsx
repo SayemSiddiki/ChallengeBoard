@@ -14,6 +14,7 @@ interface ConfirmModalProps {
   onConfirm: () => void
   onCancel: () => void
   footer?: ReactNode
+  placement?: 'default' | 'board'
 }
 
 export function ConfirmModal({
@@ -29,6 +30,7 @@ export function ConfirmModal({
   onConfirm,
   onCancel,
   footer,
+  placement = 'default',
 }: ConfirmModalProps) {
   const theme = useBoardStore((s) => s.theme)
   const isDark = theme === 'dark'
@@ -36,7 +38,10 @@ export function ConfirmModal({
   return (
     <div
       className={[
-        'fixed inset-0 z-40 flex items-start justify-center overflow-y-auto px-4 pt-20 pb-6 backdrop-blur',
+        'fixed inset-0 z-40 flex overflow-y-auto px-4 pb-6 backdrop-blur',
+        placement === 'board'
+          ? 'items-start justify-center pt-20 lg:justify-start lg:pl-[36vw]'
+          : 'items-start justify-center pt-20',
         isDark ? 'bg-black/70' : 'bg-slate-200/70',
       ].join(' ')}
     >
