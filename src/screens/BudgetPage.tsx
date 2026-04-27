@@ -34,11 +34,19 @@ function numberInput(value: number, onChange: (value: string) => void) {
   )
 }
 
-function sectionCard(children: React.ReactNode, title: string, color: string, sectionId?: string) {
+function sectionCard(
+  children: React.ReactNode,
+  title: string,
+  color: string,
+  sectionId?: string,
+) {
   return (
     <section id={sectionId} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="rounded-t-2xl px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-slate-700" style={{ backgroundColor: color }}>
-        {title}
+      <div
+        className="flex items-center justify-between gap-2 rounded-t-2xl px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-slate-700"
+        style={{ backgroundColor: color }}
+      >
+        <span className="budget-title-shine truncate whitespace-nowrap">{title}</span>
       </div>
       <div className="p-3 text-slate-800 sm:p-4">{children}</div>
     </section>
@@ -314,7 +322,6 @@ export function BudgetPage() {
     { label: 'Challenge', budget: summary.challengeYourself, actual: summary.challengeYourself },
   ]
   const maxBar = Math.max(...barRows.flatMap((item) => [item.budget, item.actual]), 1)
-
   return (
     <Layout>
       <div className="space-y-5">
@@ -871,7 +878,10 @@ export function BudgetPage() {
         )}
       </div>
       {showBreakdownLarge && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 px-4" onClick={() => setShowBreakdownLarge(false)}>
+        <div
+          className="fixed inset-0 z-40 flex items-start justify-center overflow-y-auto bg-black/60 px-4 pt-16 pb-6"
+          onClick={() => setShowBreakdownLarge(false)}
+        >
           <div
             className="w-full max-w-xl rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl"
             onClick={(e) => e.stopPropagation()}

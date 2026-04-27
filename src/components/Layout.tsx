@@ -78,7 +78,7 @@ export function Layout({ children }: { children: ReactNode }) {
               to={item.to}
               className={({ isActive }) =>
                 [
-                  'inline-flex flex-1 items-center justify-center rounded-full px-3 py-1.5 font-medium transition',
+                  'inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-1.5 font-medium transition',
                   isActive
                     ? isDark
                       ? 'bg-slate-100 text-black'
