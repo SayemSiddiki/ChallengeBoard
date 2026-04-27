@@ -28,6 +28,9 @@ export function Layout({ children }: { children: ReactNode }) {
     profile?.full_name?.trim() ||
     [profile?.first_name, profile?.last_name].filter(Boolean).join(' ').trim() ||
     null
+  const avatarValue = profile?.avatar_url?.trim() ?? ''
+  const emojiAvatar = avatarValue.startsWith('emoji:') ? avatarValue.slice('emoji:'.length) : null
+  const imageAvatar = avatarValue && !avatarValue.startsWith('emoji:') ? avatarValue : null
 
   const [menuOpen, setMenuOpen] = useState(false)
   const pillRef = useRef<HTMLDivElement | null>(null)
@@ -121,12 +124,20 @@ export function Layout({ children }: { children: ReactNode }) {
                 aria-expanded={menuOpen}
               >
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 text-[0.7rem] font-semibold text-emerald-400">
-                  $
+                  {imageAvatar ? (
+                    <img
+                      src={imageAvatar}
+                      alt="Profile avatar"
+                      className="h-full w-full rounded-full object-cover"
+                    />
+                  ) : (
+                    emojiAvatar || '$'
+                  )}
                 </span>
                 <span className="font-medium">
                   {isSessionLoading || isProfileLoading
                     ? 'Loading…'
-                    : displayName || 'Loading…'}
+                    : displayName || 'Account'}
                 </span>
                 <span className="ml-1 text-[0.65rem] opacity-70">▾</span>
               </button>

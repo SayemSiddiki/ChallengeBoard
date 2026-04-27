@@ -3,6 +3,8 @@ import { useAuthStore } from '../store/authStore'
 import { upsertProfile } from '../lib/profile'
 import { useBoardStore } from '../store/boardStore'
 
+const AVATAR_CHOICES = ['😀', '😎', '🤖', '🦊', '🐼', '🐯', '🐸', '🐙']
+
 function profileFlagKey(userId: string) {
   return `profile-name-set:${userId}`
 }
@@ -39,16 +41,32 @@ export function ProfileNameModal() {
 
   const initialFirst = useMemo(() => profile?.first_name ?? '', [profile?.first_name])
   const initialLast = useMemo(() => profile?.last_name ?? '', [profile?.last_name])
+  const initialAvatar = useMemo(() => {
+    const raw = profile?.avatar_url?.trim() ?? ''
+    if (raw.startsWith('emoji:')) {
+      const emoji = raw.slice('emoji:'.length)
+      return AVATAR_CHOICES.includes(emoji) ? emoji : AVATAR_CHOICES[0]
+    }
+    return AVATAR_CHOICES[0]
+  }, [profile?.avatar_url])
+  const initialCustomAvatarUrl = useMemo(() => {
+    const raw = profile?.avatar_url?.trim() ?? ''
+    return raw && !raw.startsWith('emoji:') ? raw : ''
+  }, [profile?.avatar_url])
 
   const [firstName, setFirstName] = useState(initialFirst)
   const [lastName, setLastName] = useState(initialLast)
+  const [selectedAvatar, setSelectedAvatar] = useState(initialAvatar)
+  const [customAvatarUrl, setCustomAvatarUrl] = useState(initialCustomAvatarUrl)
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     if (!shouldOpen) return
     setFirstName(initialFirst)
     setLastName(initialLast)
-  }, [shouldOpen, initialFirst, initialLast])
+    setSelectedAvatar(initialAvatar)
+    setCustomAvatarUrl(initialCustomAvatarUrl)
+  }, [shouldOpen, initialFirst, initialLast, initialAvatar, initialCustomAvatarUrl])
 
   const canSave = firstName.trim().length > 0 && lastName.trim().length > 0 && !saving
 
@@ -58,9 +76,13 @@ export function ProfileNameModal() {
     setSaving(true)
     try {
       setIsProfileLoading(true)
+      const avatarToSave = customAvatarUrl.trim()
+        ? customAvatarUrl.trim()
+        : `emoji:${selectedAvatar}`
       const { profile: saved, error } = await upsertProfile(session.user.id, {
         first_name: firstName,
         last_name: lastName,
+        avatar_url: avatarToSave,
       })
       if (error) {
         showToast('Could not save profile.', 'error')
@@ -108,6 +130,40 @@ export function ProfileNameModal() {
               className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/70"
               placeholder="Last name"
             />
+          </div>
+          <div className="space-y-2">
+            <label className="block text-[0.7rem] font-medium text-slate-200">
+              Choose avatar
+            </label>
+            <div className="grid grid-cols-4 gap-2">
+              {AVATAR_CHOICES.map((avatar) => (
+                <button
+                  key={avatar}
+                  type="button"
+                  onClick={() => setSelectedAvatar(avatar)}
+                  className={[
+                    'inline-flex h-10 w-full items-center justify-center rounded-xl border text-lg transition',
+                    selectedAvatar === avatar
+                      ? 'border-emerald-500 bg-emerald-500/15'
+                      : 'border-slate-800 bg-slate-950 hover:border-slate-700',
+                  ].join(' ')}
+                  aria-label={`Choose avatar ${avatar}`}
+                >
+                  {avatar}
+                </button>
+              ))}
+            </div>
+            <div className="space-y-1.5">
+              <label className="block text-[0.7rem] font-medium text-slate-200">
+                Or use image URL (optional)
+              </label>
+              <input
+                value={customAvatarUrl}
+                onChange={(e) => setCustomAvatarUrl(e.target.value)}
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/70"
+                placeholder="https://example.com/avatar.png"
+              />
+            </div>
           </div>
         </div>
 
