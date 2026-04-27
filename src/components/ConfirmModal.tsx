@@ -36,7 +36,7 @@ export function ConfirmModal({
   return (
     <div
       className={[
-        'fixed inset-0 z-40 flex items-center justify-center px-4 backdrop-blur',
+        'fixed inset-0 z-40 flex items-start justify-center overflow-y-auto px-4 pt-20 pb-6 backdrop-blur',
         isDark ? 'bg-black/70' : 'bg-slate-200/70',
       ].join(' ')}
     >
