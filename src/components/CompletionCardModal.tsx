@@ -63,7 +63,7 @@ export function CompletionCardModal({
     const text = [
       `ChallengeBoard update: Day ${dayNumber} completed.`,
       `Saved: $${amount.toLocaleString()} | Progress: ${clampedPercent}%`,
-      `Track your progress here: ${websiteUrl}`,
+      'Track your progress here:',
     ].join('\n')
     const shareData = {
       title: 'ChallengeBoard Progress Update',

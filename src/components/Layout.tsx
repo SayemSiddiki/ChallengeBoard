@@ -5,6 +5,7 @@ import { useBoardStore } from '../store/boardStore'
 import { useAuthStore } from '../store/authStore'
 import { logout } from '../logout'
 import { AccountSettingsModal } from './AccountSettingsModal'
+import { MyProfileModal } from './MyProfileModal'
 
 const navItems = [
   { to: '/home', label: 'Home' },
@@ -19,10 +20,11 @@ export function Layout({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
   const theme = useBoardStore((s) => s.theme)
   const showToast = useBoardStore((s) => s.showToast)
+  const goalAmount = useBoardStore((s) => s.goalAmount)
+  const tiles = useBoardStore((s) => s.tiles)
+  const deposits = useBoardStore((s) => s.deposits)
   const session = useAuthStore((s) => s.session)
-  const isSessionLoading = useAuthStore((s) => s.isSessionLoading)
   const profile = useAuthStore((s) => s.profile)
-  const isProfileLoading = useAuthStore((s) => s.isProfileLoading)
   const setProfile = useAuthStore((s) => s.setProfile)
   const isDark = theme === 'dark'
 
@@ -35,6 +37,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const imageAvatar = avatarValue && !avatarValue.startsWith('emoji:') ? avatarValue : null
 
   const [menuOpen, setMenuOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const pillRef = useRef<HTMLDivElement | null>(null)
 
@@ -72,18 +75,35 @@ export function Layout({ children }: { children: ReactNode }) {
     setSettingsOpen(true)
   }
 
+  const openProfile = () => {
+    setMenuOpen(false)
+    setProfileOpen(true)
+  }
+
   return (
     <div className="flex min-h-[calc(100vh-4.5rem)] w-full flex-col px-4 py-6">
       {session && (
-        <AccountSettingsModal
-          open={settingsOpen}
-          session={session}
-          profile={profile}
-          isDark={isDark}
-          onClose={() => setSettingsOpen(false)}
-          onProfileSaved={setProfile}
-          showToast={showToast}
-        />
+        <>
+          <MyProfileModal
+            open={profileOpen}
+            session={session}
+            profile={profile}
+            isDark={isDark}
+            goalAmount={goalAmount}
+            tiles={tiles}
+            deposits={deposits}
+            onClose={() => setProfileOpen(false)}
+          />
+          <AccountSettingsModal
+            open={settingsOpen}
+            session={session}
+            profile={profile}
+            isDark={isDark}
+            onClose={() => setSettingsOpen(false)}
+            onProfileSaved={setProfile}
+            showToast={showToast}
+          />
+        </>
       )}
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <nav
@@ -154,9 +174,7 @@ export function Layout({ children }: { children: ReactNode }) {
                   )}
                 </span>
                 <span className="font-medium">
-                  {isSessionLoading || isProfileLoading
-                    ? 'Loading…'
-                    : displayName || 'Account'}
+                  {displayName || 'Account'}
                 </span>
                 <span className="ml-1 text-[0.65rem] opacity-70">▾</span>
               </button>
@@ -171,6 +189,19 @@ export function Layout({ children }: { children: ReactNode }) {
                       : 'border-slate-200 bg-white text-slate-900 shadow-slate-900/10',
                   ].join(' ')}
                 >
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={openProfile}
+                    className={[
+                      'w-full px-3 py-2 text-left text-xs font-semibold transition',
+                      isDark
+                        ? 'hover:bg-slate-900'
+                        : 'hover:bg-slate-50',
+                    ].join(' ')}
+                  >
+                    My profile
+                  </button>
                   <button
                     type="button"
                     role="menuitem"
