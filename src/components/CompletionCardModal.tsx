@@ -59,7 +59,7 @@ export function CompletionCardModal({
   }
 
   const handleShare = async () => {
-    const websiteUrl = window.location.origin
+    const websiteUrl = 'https://challangeboard.tech/'
     const text = [
       `ChallengeBoard update: Day ${dayNumber} completed.`,
       `Saved: $${amount.toLocaleString()} | Progress: ${clampedPercent}%`,
@@ -84,6 +84,11 @@ export function CompletionCardModal({
 
   const handleDownload = async () => {
     if (!cardRef.current) return
+    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent)
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+    // Open fallback tab immediately (user gesture) so popup blockers do not block later.
+    const fallbackTab =
+      isIos || isSafari ? window.open('', '_blank', 'noopener,noreferrer') : null
     try {
       const html2canvasModule = await import('html2canvas')
       const html2canvas = html2canvasModule.default
@@ -109,19 +114,16 @@ export function CompletionCardModal({
       document.body.removeChild(link)
 
       // Some browsers (notably iOS Safari) block direct download;
-      // open the image in a new tab as a fallback so user can save manually.
-      const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent)
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-      if (isIos || isSafari) {
-        window.setTimeout(() => {
-          window.open(objectUrl, '_blank', 'noopener,noreferrer')
-        }, 80)
+      // send fallback tab to the image so user can long-press / Save Image.
+      if (fallbackTab) {
+        fallbackTab.location.href = objectUrl
       }
 
       window.setTimeout(() => URL.revokeObjectURL(objectUrl), 5000)
       showToast('Card image ready. If download is blocked, save from opened tab.', 'success')
     } catch (error) {
       console.error('Error generating PNG card', error)
+      if (fallbackTab) fallbackTab.close()
       showToast('Could not download card.', 'error')
     }
   }
