@@ -408,6 +408,7 @@ export function BoardPage() {
 
       {selectedTile && (
         <ConfirmModal
+          placement="board"
           title={
             selectedDayNumber
               ? `Day ${selectedDayNumber}`
