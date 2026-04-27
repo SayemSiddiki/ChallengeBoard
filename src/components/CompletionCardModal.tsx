@@ -103,7 +103,7 @@ export function CompletionCardModal({
 
   return (
     <div
-      className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 px-4"
+      className="fixed inset-0 z-40 flex items-start justify-center overflow-y-auto bg-black/60 px-4 pt-16 pb-6"
       onClick={handleBackdropClick}
     >
       {/* Confetti */}
