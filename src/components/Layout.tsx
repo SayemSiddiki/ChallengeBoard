@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useBoardStore } from '../store/boardStore'
 import { useAuthStore } from '../store/authStore'
 import { logout } from '../logout'
+import { AccountSettingsModal } from './AccountSettingsModal'
 
 const navItems = [
   { to: '/home', label: 'Home' },
@@ -22,6 +23,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const isSessionLoading = useAuthStore((s) => s.isSessionLoading)
   const profile = useAuthStore((s) => s.profile)
   const isProfileLoading = useAuthStore((s) => s.isProfileLoading)
+  const setProfile = useAuthStore((s) => s.setProfile)
   const isDark = theme === 'dark'
 
   const displayName =
@@ -33,6 +35,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const imageAvatar = avatarValue && !avatarValue.startsWith('emoji:') ? avatarValue : null
 
   const [menuOpen, setMenuOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const pillRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -64,8 +67,24 @@ export function Layout({ children }: { children: ReactNode }) {
     navigate('/home', { replace: true })
   }
 
+  const openSettings = () => {
+    setMenuOpen(false)
+    setSettingsOpen(true)
+  }
+
   return (
     <div className="flex min-h-[calc(100vh-4.5rem)] w-full flex-col px-4 py-6">
+      {session && (
+        <AccountSettingsModal
+          open={settingsOpen}
+          session={session}
+          profile={profile}
+          isDark={isDark}
+          onClose={() => setSettingsOpen(false)}
+          onProfileSaved={setProfile}
+          showToast={showToast}
+        />
+      )}
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <nav
           className={[
@@ -146,12 +165,25 @@ export function Layout({ children }: { children: ReactNode }) {
                 <div
                   role="menu"
                   className={[
-                    'absolute right-0 mt-2 w-44 overflow-hidden rounded-xl border shadow-lg',
+                    'absolute right-0 mt-2 w-56 overflow-hidden rounded-xl border shadow-lg',
                     isDark
                       ? 'border-slate-800 bg-slate-950 text-slate-100 shadow-black/40'
                       : 'border-slate-200 bg-white text-slate-900 shadow-slate-900/10',
                   ].join(' ')}
                 >
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={openSettings}
+                    className={[
+                      'w-full px-3 py-2 text-left text-xs font-semibold transition',
+                      isDark
+                        ? 'hover:bg-slate-900'
+                        : 'hover:bg-slate-50',
+                    ].join(' ')}
+                  >
+                    Account settings
+                  </button>
                   <button
                     type="button"
                     role="menuitem"

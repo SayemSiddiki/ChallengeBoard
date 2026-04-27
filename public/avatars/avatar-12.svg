@@ -1,0 +1,32 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Blue background -->
+  <circle cx="100" cy="100" r="100" fill="#118AB2"/>
+  
+  <!-- White circle frame -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="4"/>
+  
+  <!-- Face - fair skin tone (facing left) -->
+  <ellipse cx="95" cy="100" rx="36" ry="43" fill="#FFE4C4"/>
+  
+  <!-- Neck -->
+  <rect x="88" y="130" width="22" height="25" fill="#FFE4C4"/>
+  
+  <!-- Ear -->
+  <ellipse cx="131" cy="100" rx="8" ry="12" fill="#F5D5B8"/>
+  
+  <!-- Short black hair -->
+  <ellipse cx="95" cy="65" rx="36" ry="28" fill="#1a1a1a"/>
+  <path d="M 59 80 Q 62 70 70 65 Q 80 62 90 60 Q 100 60 110 62 Q 120 65 128 70 Q 131 75 131 82" fill="#1a1a1a"/>
+  
+  <!-- Eye -->
+  <circle cx="84" cy="95" r="3" fill="#1a1a1a"/>
+  
+  <!-- Sharp jawline -->
+  <path d="M 131 110 L 125 125 L 110 135" stroke="#F5D5B8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Nose -->
+  <path d="M 69 100 Q 67 105 69 109" stroke="#F0C8A0" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Mouth -->
+  <line x1="74" y1="116" x2="84" y2="116" stroke="#E0B890" stroke-width="2" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,42 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Orange background -->
+  <circle cx="100" cy="100" r="100" fill="#FF8C42"/>
+  
+  <!-- White circle frame -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="4"/>
+  
+  <!-- Yellow hoodie -->
+  <path d="M 70 140 Q 70 125 85 122 L 100 120 L 115 122 Q 130 125 130 140 L 130 160 L 70 160 Z" fill="#FFBE0B"/>
+  
+  <!-- Hood -->
+  <path d="M 85 122 Q 80 115 82 105 Q 90 100 100 100 Q 110 100 118 105 Q 120 115 115 122" fill="#F5A623"/>
+  
+  <!-- Neck -->
+  <rect x="88" y="118" width="24" height="15" fill="#FFE4C4"/>
+  
+  <!-- Face - light skin tone (slightly upward) -->
+  <ellipse cx="100" cy="95" rx="36" ry="40" fill="#FFEEE0"/>
+  
+  <!-- Hair bun -->
+  <circle cx="100" cy="52" r="18" fill="#6B4423"/>
+  <circle cx="100" cy="52" r="14" fill="#5D3A1A" opacity="0.7"/>
+  
+  <!-- Hair on sides -->
+  <path d="M 64 80 Q 60 70 62 60 Q 68 55 75 55 Q 80 55 85 58" fill="#6B4423"/>
+  <path d="M 136 80 Q 140 70 138 60 Q 132 55 125 55 Q 120 55 115 58" fill="#6B4423"/>
+  
+  <!-- Eyes looking up -->
+  <ellipse cx="88" cy="88" rx="4" ry="5" fill="#1a1a1a"/>
+  <ellipse cx="112" cy="88" rx="4" ry="5" fill="#1a1a1a"/>
+  
+  <!-- Eyebrows -->
+  <path d="M 80 80 Q 88 77 95 79" stroke="#5D3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M 105 79 Q 112 77 120 80" stroke="#5D3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Nose -->
+  <path d="M 100 93 L 100 103" stroke="#F5D5C0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 96 103 Q 98 105 100 105 Q 102 105 104 103" stroke="#F5D5C0" stroke-width="1.5" fill="none"/>
+  
+  <!-- Smile -->
+  <path d="M 88 112 Q 100 118 112 112" stroke="#F0CDB0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>

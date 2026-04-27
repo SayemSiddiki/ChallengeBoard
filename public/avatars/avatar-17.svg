@@ -1,0 +1,36 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Purple background -->
+  <circle cx="100" cy="100" r="100" fill="#9D4EDD"/>
+  
+  <!-- White circle frame -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="4"/>
+  
+  <!-- Long straight hair - back layer -->
+  <rect x="58" y="70" width="84" height="90" fill="#8B4513" rx="12"/>
+  
+  <!-- Neck -->
+  <rect x="88" y="125" width="24" height="30" fill="#FFE4C4"/>
+  
+  <!-- Face - light skin tone -->
+  <ellipse cx="100" cy="95" rx="36" ry="43" fill="#FFEEE0"/>
+  
+  <!-- Hair front -->
+  <ellipse cx="70" cy="78" rx="12" ry="30" fill="#8B4513"/>
+  <ellipse cx="130" cy="78" rx="12" ry="30" fill="#8B4513"/>
+  <ellipse cx="100" cy="58" rx="40" ry="18" fill="#8B4513"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="88" cy="90" rx="4" ry="5" fill="#1a1a1a"/>
+  <ellipse cx="112" cy="90" rx="4" ry="5" fill="#1a1a1a"/>
+  
+  <!-- Eyebrows -->
+  <path d="M 80 82 Q 88 80 95 82" stroke="#6B3410" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M 105 82 Q 112 80 120 82" stroke="#6B3410" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Nose -->
+  <path d="M 100 95 L 100 105" stroke="#F5D5C0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 96 105 Q 98 107 100 107 Q 102 107 104 105" stroke="#F5D5C0" stroke-width="1.5" fill="none"/>
+  
+  <!-- Neutral mouth -->
+  <line x1="92" y1="115" x2="108" y2="115" stroke="#F0CDB0" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

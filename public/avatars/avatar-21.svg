@@ -1,0 +1,35 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Red background -->
+  <circle cx="100" cy="100" r="100" fill="#E63946"/>
+  
+  <!-- White circle frame -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="4"/>
+  
+  <!-- Face - medium skin tone (facing left) -->
+  <ellipse cx="95" cy="100" rx="34" ry="41" fill="#C68642"/>
+  
+  <!-- Neck -->
+  <rect x="88" y="130" width="20" height="25" fill="#C68642"/>
+  
+  <!-- Ear -->
+  <ellipse cx="129" cy="100" rx="7" ry="11" fill="#B87333"/>
+  
+  <!-- Hair tied back - ponytail -->
+  <ellipse cx="95" cy="70" rx="38" ry="32" fill="#3D2817"/>
+  <ellipse cx="145" cy="85" rx="18" ry="25" fill="#3D2817"/>
+  
+  <!-- Hair tie -->
+  <ellipse cx="132" cy="80" rx="6" ry="8" fill="#2C1810"/>
+  
+  <!-- Hair line on forehead -->
+  <path d="M 59 82 Q 62 72 70 67 Q 82 63 95 62 Q 108 63 120 67 Q 128 72 131 82" fill="#3D2817"/>
+  
+  <!-- Eye -->
+  <circle cx="84" cy="95" r="3" fill="#1a1a1a"/>
+  
+  <!-- Nose -->
+  <path d="M 69 100 Q 67 105 69 108" stroke="#A66D3E" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Soft expression mouth -->
+  <path d="M 74 115 Q 80 117 84 115" stroke="#8B5A3C" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>
