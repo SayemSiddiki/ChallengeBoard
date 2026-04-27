@@ -7,6 +7,8 @@ interface TileCardProps {
   onClick: () => void
   disabled?: boolean
   highlight?: boolean
+  shineEnabled?: boolean
+  shineDelaySec?: number
 }
 
 export function TileCard({
@@ -15,6 +17,8 @@ export function TileCard({
   onClick,
   disabled,
   highlight,
+  shineEnabled = true,
+  shineDelaySec = 0,
 }: TileCardProps) {
   const theme = useBoardStore((s) => s.theme)
   const isDark = theme === 'dark'
@@ -24,8 +28,10 @@ export function TileCard({
       type="button"
       onClick={onClick}
       disabled={disabled ?? tile.isDone}
+      style={{ ['--tile-shine-delay' as string]: `${shineDelaySec}s` }}
       className={[
-        'board-tile-shine group relative flex aspect-[4/3] w-full flex-col items-center justify-center rounded-xl border text-xs font-medium tabular-nums transition',
+        'group relative flex aspect-[4/3] w-full flex-col items-center justify-center rounded-xl border text-xs font-medium tabular-nums transition',
+        shineEnabled ? 'board-tile-shine' : '',
         tile.isDone
           ? isDark
             ? 'border-emerald-500/40 bg-emerald-900/20 text-emerald-300'

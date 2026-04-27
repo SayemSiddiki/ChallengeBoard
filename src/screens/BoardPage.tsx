@@ -95,6 +95,20 @@ export function BoardPage() {
     setSelectedOutOfOrder(outOfOrder)
   }
 
+  const handleNextTileInOrder = () => {
+    if (allDone) {
+      showToast('Challenge complete. All days are done.', 'info')
+      return
+    }
+    const nextIndex = tiles.findIndex((tile) => !tile.isDone)
+    if (nextIndex < 0) return
+    const nextTile = tiles[nextIndex]
+    setSelectedTile(nextTile)
+    setNote('')
+    setSelectedDayNumber(nextIndex + 1)
+    setSelectedOutOfOrder(false)
+  }
+
   const handleConfirmTile = () => {
     if (!selectedTile) return
     const tileIndex = tiles.findIndex((t) => t.id === selectedTile.id)
@@ -387,6 +401,8 @@ export function BoardPage() {
                     key={tile.id}
                     tile={tile}
                     label={`Day ${index + 1}`}
+                    shineEnabled={index % 4 !== 0}
+                    shineDelaySec={(index % 12) * 1.1}
                     onClick={() => {
                       if (disabled) return
                       setSelectedTile(tile)
@@ -496,7 +512,7 @@ export function BoardPage() {
             ...prev,
             isOpen: false,
           }))
-          handleRandomTile()
+          handleNextTileInOrder()
         }}
       />
     </Layout>

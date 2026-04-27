@@ -59,10 +59,16 @@ export function CompletionCardModal({
   }
 
   const handleShare = async () => {
-    const text = `Day ${dayNumber} complete. I saved $${amount}. ${clampedPercent}% done on my Challenge Board.`
+    const websiteUrl = window.location.origin
+    const text = [
+      `ChallengeBoard update: Day ${dayNumber} completed.`,
+      `Saved: $${amount.toLocaleString()} | Progress: ${clampedPercent}%`,
+      `Track your progress here: ${websiteUrl}`,
+    ].join('\n')
     const shareData = {
-      title: 'Challenge Board',
+      title: 'ChallengeBoard Progress Update',
       text,
+      url: websiteUrl,
     }
 
     if (navigator.share) {
@@ -85,14 +91,35 @@ export function CompletionCardModal({
         backgroundColor: null,
         scale: window.devicePixelRatio || 2,
       })
-      const dataUrl = canvas.toDataURL('image/png')
+      const fileName = `challenge-board-day-${dayNumber}.png`
+      const blob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob((value) => resolve(value), 'image/png'),
+      )
+      if (!blob) {
+        throw new Error('Could not create image blob')
+      }
+
+      const objectUrl = URL.createObjectURL(blob)
       const link = document.createElement('a')
-      link.href = dataUrl
-      link.download = `challenge-board-day-${dayNumber}.png`
+      link.href = objectUrl
+      link.download = fileName
+      link.rel = 'noopener'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      showToast('Card downloaded.', 'success')
+
+      // Some browsers (notably iOS Safari) block direct download;
+      // open the image in a new tab as a fallback so user can save manually.
+      const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent)
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+      if (isIos || isSafari) {
+        window.setTimeout(() => {
+          window.open(objectUrl, '_blank', 'noopener,noreferrer')
+        }, 80)
+      }
+
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 5000)
+      showToast('Card image ready. If download is blocked, save from opened tab.', 'success')
     } catch (error) {
       console.error('Error generating PNG card', error)
       showToast('Could not download card.', 'error')

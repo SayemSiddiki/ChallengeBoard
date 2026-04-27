@@ -531,5 +531,6 @@ body {
   );
   background-size: 240% 100%;
   background-position: -220% 0;
-  animation: board-tile-shine 15s linear infinite;
+  animation: board-tile-shine 30s linear infinite;
+  animation-delay: var(--tile-shine-delay, 0s);
 }
