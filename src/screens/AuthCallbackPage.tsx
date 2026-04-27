@@ -59,10 +59,10 @@ export function AuthCallbackPage() {
         }
       }
 
-      // If a session exists (or was just created), go to board
+      // If a session exists (or was just created), go to home
       const { data } = await supabase.auth.getSession()
       if (data.session) {
-        navigate('/board', { replace: true })
+        navigate('/home', { replace: true })
         return
       }
 

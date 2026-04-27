@@ -8,6 +8,7 @@ import { logout } from '../logout'
 const navItems = [
   { to: '/home', label: 'Home' },
   { to: '/board', label: 'Board' },
+  { to: '/budget', label: 'Budget Plan' },
   { to: '/history', label: 'History' },
   { to: '/settings', label: 'Settings' },
 ]

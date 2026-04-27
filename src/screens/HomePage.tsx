@@ -128,6 +128,13 @@ export function HomePage() {
               </button>
               <button
                 type="button"
+                onClick={() => navigate('/budget')}
+                className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white/80 px-6 py-2.5 font-medium text-slate-800 shadow-sm transition hover:border-emerald-400 hover:bg-emerald-50/70"
+              >
+                Budget plan
+              </button>
+              <button
+                type="button"
                 onClick={() => navigate('/board')}
                 className="inline-flex w-full items-center justify-center rounded-full bg-emerald-500 px-6 py-2.5 font-semibold text-black shadow-lg shadow-emerald-500/40 transition hover:bg-emerald-400"
               >

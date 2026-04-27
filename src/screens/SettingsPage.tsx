@@ -13,6 +13,8 @@ export function SettingsPage() {
     setSettings,
     regenerateBoard,
     setTheme,
+    budgetAlertBlinkEnabled,
+    setBudgetAlertBlinkEnabled,
   } = useBoardStore()
   const [goal, setGoal] = useState(goalAmount.toString())
   const [tiles, setTiles] = useState(tileCount.toString())
@@ -69,6 +71,39 @@ export function SettingsPage() {
           ].join(' ')}
         >
           <div className="space-y-4">
+            <div className="space-y-2">
+              <label
+                className={[
+                  'block text-[0.7rem] font-medium',
+                  isDark ? 'text-slate-200' : 'text-slate-700',
+                ].join(' ')}
+              >
+                Budget alert blink
+              </label>
+              <button
+                type="button"
+                onClick={() => setBudgetAlertBlinkEnabled(!budgetAlertBlinkEnabled)}
+                className={[
+                  'inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-medium transition',
+                  budgetAlertBlinkEnabled
+                    ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600'
+                    : isDark
+                      ? 'border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-600'
+                      : 'border-slate-300 bg-white text-slate-700 hover:border-emerald-400',
+                ].join(' ')}
+              >
+                <span
+                  className={[
+                    'inline-block h-2.5 w-2.5 rounded-full',
+                    budgetAlertBlinkEnabled ? 'bg-emerald-500' : 'bg-slate-400',
+                  ].join(' ')}
+                />
+                {budgetAlertBlinkEnabled ? 'Blink ON' : 'Blink OFF'}
+              </button>
+              <p className="text-[0.7rem] text-slate-500">
+                Controls red blinking for the top cash flow chip when values are negative.
+              </p>
+            </div>
             <div className="space-y-2">
               <label
                 className={[

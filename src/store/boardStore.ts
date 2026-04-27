@@ -31,6 +31,7 @@ export interface BoardState {
   deposits: Deposit[]
   guestMode: boolean
   theme: ThemeMode
+  budgetAlertBlinkEnabled: boolean
   lastAction?: {
     type: 'completeTile' | 'customDeposit'
     payload: any
@@ -50,6 +51,7 @@ export interface BoardStore extends BoardState {
   resetBoard: () => void
   setTheme: (theme: ThemeMode) => void
   setGuestMode: (guestMode: boolean) => void
+  setBudgetAlertBlinkEnabled: (enabled: boolean) => void
   updateDepositNote: (depositId: string, note: string | undefined) => void
   deleteDeposit: (depositId: string) => void
   toast?: {
@@ -167,6 +169,7 @@ function loadInitialState(): BoardState {
       deposits: [],
       guestMode: true,
       theme: 'dark',
+      budgetAlertBlinkEnabled: true,
     }
   }
 
@@ -191,6 +194,7 @@ function loadInitialState(): BoardState {
         deposits: [],
         guestMode: true,
         theme: 'dark',
+        budgetAlertBlinkEnabled: true,
       }
     }
 
@@ -215,6 +219,7 @@ function loadInitialState(): BoardState {
       deposits: [],
       guestMode: true,
       theme: 'dark',
+      budgetAlertBlinkEnabled: true,
     }
   }
 }
@@ -246,6 +251,7 @@ async function syncStateToSupabase(state: BoardState) {
       tiles: state.tiles,
       deposits: state.deposits,
       theme: state.theme,
+      budgetAlertBlinkEnabled: state.budgetAlertBlinkEnabled,
     }
 
     await supabase
@@ -290,6 +296,7 @@ export async function loadBoardStateForCurrentUser() {
           tiles: incoming.tiles ?? prev.tiles,
           deposits: incoming.deposits ?? prev.deposits,
           theme: (incoming.theme as ThemeMode) ?? prev.theme,
+          budgetAlertBlinkEnabled: incoming.budgetAlertBlinkEnabled ?? prev.budgetAlertBlinkEnabled,
         }
         persistState(next)
         return next
@@ -303,6 +310,7 @@ export async function loadBoardStateForCurrentUser() {
         tiles: current.tiles,
         deposits: current.deposits,
         theme: current.theme,
+        budgetAlertBlinkEnabled: current.budgetAlertBlinkEnabled,
       }
       await supabase.from('board_state').insert({
         user_id: userId,
@@ -348,6 +356,17 @@ export const useBoardStore = create<BoardStore>((set, get) => ({
         guestMode,
       }
       persistState(next)
+      return next
+    })
+  },
+  setBudgetAlertBlinkEnabled: (enabled) => {
+    set((state) => {
+      const next: BoardState = {
+        ...state,
+        budgetAlertBlinkEnabled: enabled,
+      }
+      persistState(next)
+      syncStateToSupabase(next)
       return next
     })
   },
