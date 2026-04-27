@@ -1,0 +1,50 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Purple background -->
+  <circle cx="100" cy="100" r="100" fill="#9D4EDD"/>
+  
+  <!-- White circle frame -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="4"/>
+  
+  <!-- Neck -->
+  <rect x="88" y="125" width="24" height="30" fill="#5D4037"/>
+  
+  <!-- Face - dark skin tone -->
+  <ellipse cx="100" cy="95" rx="37" ry="44" fill="#6D4C41"/>
+  
+  <!-- Curly hair -->
+  <ellipse cx="100" cy="60" rx="48" ry="32" fill="#1a1a1a"/>
+  
+  <!-- Curls on sides and top -->
+  <circle cx="62" cy="75" r="14" fill="#1a1a1a"/>
+  <circle cx="138" cy="75" r="14" fill="#1a1a1a"/>
+  <circle cx="55" cy="88" r="11" fill="#1a1a1a"/>
+  <circle cx="145" cy="88" r="11" fill="#1a1a1a"/>
+  <circle cx="80" cy="52" r="9" fill="#0d0d0d"/>
+  <circle cx="120" cy="52" r="9" fill="#0d0d0d"/>
+  <circle cx="95" cy="48" r="7" fill="#0d0d0d"/>
+  <circle cx="105" cy="48" r="7" fill="#0d0d0d"/>
+  
+  <!-- Round glasses -->
+  <circle cx="88" cy="90" r="13" fill="none" stroke="#2C3E50" stroke-width="2.5"/>
+  <circle cx="112" cy="90" r="13" fill="none" stroke="#2C3E50" stroke-width="2.5"/>
+  <line x1="101" y1="90" x2="99" y2="90" stroke="#2C3E50" stroke-width="2.5"/>
+  
+  <!-- Glasses arms -->
+  <path d="M 75 90 L 65 88" stroke="#2C3E50" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 125 90 L 135 88" stroke="#2C3E50" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Eyes behind glasses -->
+  <circle cx="88" cy="90" r="3" fill="#1a1a1a"/>
+  <circle cx="112" cy="90" r="3" fill="#1a1a1a"/>
+  
+  <!-- Eyebrows -->
+  <path d="M 78 78 Q 85 76 92 78" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M 108 78 Q 115 76 122 78" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Nose -->
+  <path d="M 100 95 L 100 105" stroke="#5D4037" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 96 105 Q 98 107 100 107 Q 102 107 104 105" stroke="#5D4037" stroke-width="1.5" fill="none"/>
+  
+  <!-- Calm expression - slight smile -->
+  <path d="M 90 115 Q 100 119 110 115" stroke="#4E342E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>

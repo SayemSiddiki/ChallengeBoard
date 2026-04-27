@@ -1,0 +1,35 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Blue background -->
+  <circle cx="100" cy="100" r="100" fill="#118AB2"/>
+  
+  <!-- White circle frame -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="4"/>
+  
+  <!-- Green hoodie -->
+  <path d="M 75 140 Q 75 125 88 122 L 110 122 Q 120 125 120 140 L 120 160 L 75 160 Z" fill="#06D6A0"/>
+  
+  <!-- Hood -->
+  <path d="M 88 122 Q 82 115 80 105 Q 85 95 95 92 Q 105 92 112 95" fill="#05B385"/>
+  
+  <!-- Face - medium skin tone (facing left) -->
+  <ellipse cx="95" cy="100" rx="34" ry="41" fill="#C68642"/>
+  
+  <!-- Neck -->
+  <rect x="88" y="125" width="20" height="12" fill="#C68642"/>
+  
+  <!-- Ear -->
+  <ellipse cx="129" cy="100" rx="7" ry="11" fill="#B87333"/>
+  
+  <!-- Hair -->
+  <ellipse cx="95" cy="70" rx="38" ry="30" fill="#2C1810"/>
+  <path d="M 57 85 Q 60 75 68 68 Q 78 63 90 62 Q 102 62 115 65 Q 125 70 130 78 Q 133 85 131 92" fill="#2C1810"/>
+  
+  <!-- Eye -->
+  <circle cx="84" cy="95" r="3" fill="#1a1a1a"/>
+  
+  <!-- Nose -->
+  <path d="M 69 100 Q 67 105 69 108" stroke="#A66D3E" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Neutral mouth -->
+  <line x1="74" y1="115" x2="84" y2="115" stroke="#8B5A3C" stroke-width="2" stroke-linecap="round"/>
+</svg>

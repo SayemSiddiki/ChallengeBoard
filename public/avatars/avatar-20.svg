@@ -1,0 +1,32 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Purple background -->
+  <circle cx="100" cy="100" r="100" fill="#9D4EDD"/>
+  
+  <!-- White circle frame -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="4"/>
+  
+  <!-- Face - light skin tone (facing right) -->
+  <ellipse cx="105" cy="100" rx="34" ry="41" fill="#FFE4C4"/>
+  
+  <!-- Neck -->
+  <rect x="90" y="130" width="20" height="25" fill="#FFE4C4"/>
+  
+  <!-- Ear -->
+  <ellipse cx="71" cy="100" rx="7" ry="11" fill="#F5D5B8"/>
+  
+  <!-- Short bob hair -->
+  <ellipse cx="105" cy="70" rx="40" ry="32" fill="#5D3A1A"/>
+  <path d="M 65 85 Q 68 75 75 68 Q 85 63 98 62 Q 110 62 125 65 Q 138 70 145 80 Q 148 90 145 100 Q 142 108 135 112" fill="#5D3A1A"/>
+  
+  <!-- Bob hair line -->
+  <path d="M 70 110 Q 80 115 90 115 Q 100 115 110 112 Q 120 110 130 105" stroke="#4A2810" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Eye -->
+  <circle cx="115" cy="95" r="3" fill="#1a1a1a"/>
+  
+  <!-- Nose -->
+  <path d="M 131 100 Q 133 104 131 108" stroke="#F0C8A0" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Neutral mouth -->
+  <line x1="116" y1="115" x2="126" y2="115" stroke="#E0B890" stroke-width="2" stroke-linecap="round"/>
+</svg>

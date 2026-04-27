@@ -3,7 +3,10 @@ import { useAuthStore } from '../store/authStore'
 import { upsertProfile } from '../lib/profile'
 import { useBoardStore } from '../store/boardStore'
 
-const AVATAR_CHOICES = ['😀', '😎', '🤖', '🦊', '🐼', '🐯', '🐸', '🐙']
+const AVATAR_CHOICES = Array.from({ length: 20 }, (_, index) => {
+  const avatarNumber = index + 6
+  return `/avatars/avatar-${String(avatarNumber).padStart(2, '0')}.svg`
+})
 
 function profileFlagKey(userId: string) {
   return `profile-name-set:${userId}`
@@ -43,9 +46,8 @@ export function ProfileNameModal() {
   const initialLast = useMemo(() => profile?.last_name ?? '', [profile?.last_name])
   const initialAvatar = useMemo(() => {
     const raw = profile?.avatar_url?.trim() ?? ''
-    if (raw.startsWith('emoji:')) {
-      const emoji = raw.slice('emoji:'.length)
-      return AVATAR_CHOICES.includes(emoji) ? emoji : AVATAR_CHOICES[0]
+    if (raw && AVATAR_CHOICES.includes(raw)) {
+      return raw
     }
     return AVATAR_CHOICES[0]
   }, [profile?.avatar_url])
@@ -78,7 +80,7 @@ export function ProfileNameModal() {
       setIsProfileLoading(true)
       const avatarToSave = customAvatarUrl.trim()
         ? customAvatarUrl.trim()
-        : `emoji:${selectedAvatar}`
+        : selectedAvatar
       const { profile: saved, error } = await upsertProfile(session.user.id, {
         first_name: firstName,
         last_name: lastName,
@@ -147,9 +149,13 @@ export function ProfileNameModal() {
                       ? 'border-emerald-500 bg-emerald-500/15'
                       : 'border-slate-800 bg-slate-950 hover:border-slate-700',
                   ].join(' ')}
-                  aria-label={`Choose avatar ${avatar}`}
+                  aria-label="Choose avatar"
                 >
-                  {avatar}
+                  <img
+                    src={avatar}
+                    alt="Avatar option"
+                    className="h-8 w-8 rounded-full object-cover"
+                  />
                 </button>
               ))}
             </div>

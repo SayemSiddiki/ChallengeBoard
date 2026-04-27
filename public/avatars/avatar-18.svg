@@ -1,0 +1,37 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Yellow background -->
+  <circle cx="100" cy="100" r="100" fill="#FFBE0B"/>
+  
+  <!-- White circle frame -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="4"/>
+  
+  <!-- Neck -->
+  <rect x="88" y="125" width="24" height="30" fill="#D4A373"/>
+  
+  <!-- Face - tan skin tone -->
+  <ellipse cx="100" cy="95" rx="38" ry="44" fill="#E0AC69"/>
+  
+  <!-- Short hair -->
+  <ellipse cx="100" cy="65" rx="40" ry="28" fill="#3D2817"/>
+  <path d="M 60 80 Q 62 70 70 65 Q 85 60 100 60 Q 115 60 130 65 Q 138 70 140 80" fill="#3D2817"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="88" cy="90" rx="4" ry="5" fill="#1a1a1a"/>
+  <ellipse cx="112" cy="90" rx="4" ry="5" fill="#1a1a1a"/>
+  
+  <!-- Eyebrows -->
+  <path d="M 80 82 Q 88 79 95 81" stroke="#2C1810" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M 105 81 Q 112 79 120 82" stroke="#2C1810" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Nose -->
+  <path d="M 100 95 L 100 105" stroke="#C9955A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 96 105 Q 98 107 100 107 Q 102 107 104 105" stroke="#C9955A" stroke-width="1.5" fill="none"/>
+  
+  <!-- Short beard -->
+  <path d="M 82 120 Q 85 128 90 132 Q 95 135 100 135 Q 105 135 110 132 Q 115 128 118 120" fill="#3D2817" opacity="0.8"/>
+  <path d="M 75 108 Q 78 115 82 118" fill="#3D2817" opacity="0.6"/>
+  <path d="M 125 108 Q 122 115 118 118" fill="#3D2817" opacity="0.6"/>
+  
+  <!-- Calm mouth -->
+  <path d="M 90 116 Q 100 120 110 116" stroke="#B8854A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>
