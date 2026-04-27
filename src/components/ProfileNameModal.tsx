@@ -62,6 +62,15 @@ export function ProfileNameModal() {
   const [customAvatarUrl, setCustomAvatarUrl] = useState(initialCustomAvatarUrl)
   const [saving, setSaving] = useState(false)
 
+  const withTimeout = async <T,>(promise: Promise<T>, ms: number) => {
+    return await Promise.race<T>([
+      promise,
+      new Promise<T>((_, reject) =>
+        window.setTimeout(() => reject(new Error('Request timed out. Please try again.')), ms),
+      ),
+    ])
+  }
+
   useEffect(() => {
     if (!shouldOpen) return
     setFirstName(initialFirst)
@@ -81,11 +90,14 @@ export function ProfileNameModal() {
       const avatarToSave = customAvatarUrl.trim()
         ? customAvatarUrl.trim()
         : selectedAvatar
-      const { profile: saved, error } = await upsertProfile(session.user.id, {
-        first_name: firstName,
-        last_name: lastName,
-        avatar_url: avatarToSave,
-      })
+      const { profile: saved, error } = await withTimeout(
+        upsertProfile(session.user.id, {
+          first_name: firstName,
+          last_name: lastName,
+          avatar_url: avatarToSave,
+        }),
+        15000,
+      )
       if (error) {
         showToast('Could not save profile.', 'error')
         return
@@ -93,6 +105,10 @@ export function ProfileNameModal() {
       setProfile(saved)
       setSavedNameFlag(session.user.id)
       showToast('Profile saved.', 'success')
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Could not save profile. Please try again.'
+      showToast(message, 'error')
     } finally {
       setIsProfileLoading(false)
       setSaving(false)
@@ -142,7 +158,10 @@ export function ProfileNameModal() {
                 <button
                   key={avatar}
                   type="button"
-                  onClick={() => setSelectedAvatar(avatar)}
+                  onClick={() => {
+                    setSelectedAvatar(avatar)
+                    setCustomAvatarUrl('')
+                  }}
                   className={[
                     'inline-flex h-10 w-full items-center justify-center rounded-xl border text-lg transition',
                     selectedAvatar === avatar

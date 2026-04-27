@@ -28,6 +28,15 @@ export function AccountSettingsModal({
   onProfileSaved,
   showToast,
 }: AccountSettingsModalProps) {
+  const withTimeout = async <T,>(promise: Promise<T>, ms: number) => {
+    return await Promise.race<T>([
+      promise,
+      new Promise<T>((_, reject) =>
+        window.setTimeout(() => reject(new Error('Request timed out. Please try again.')), ms),
+      ),
+    ])
+  }
+
   const initialName = useMemo(
     () => ({
       first: profile?.first_name ?? '',
@@ -94,17 +103,24 @@ export function AccountSettingsModal({
       const avatarToSave = customAvatarUrl.trim()
         ? customAvatarUrl.trim()
         : selectedAvatar
-      const { profile: saved, error } = await upsertProfile(session.user.id, {
-        first_name: firstName.trim(),
-        last_name: lastName.trim(),
-        avatar_url: avatarToSave,
-      })
+      const { profile: saved, error } = await withTimeout(
+        upsertProfile(session.user.id, {
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          avatar_url: avatarToSave,
+        }),
+        15000,
+      )
       if (error || !saved) {
         showToast('Could not save profile.', 'error')
         return
       }
       onProfileSaved(saved)
       showToast('Profile updated.', 'success')
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Could not save profile. Please try again.'
+      showToast(message, 'error')
     } finally {
       setSavingProfile(false)
     }
@@ -204,7 +220,10 @@ export function AccountSettingsModal({
                   <button
                     key={avatar}
                     type="button"
-                    onClick={() => setSelectedAvatar(avatar)}
+                    onClick={() => {
+                      setSelectedAvatar(avatar)
+                      setCustomAvatarUrl('')
+                    }}
                     className={[
                       'inline-flex h-10 items-center justify-center rounded-xl border text-lg transition',
                       selectedAvatar === avatar
