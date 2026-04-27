@@ -10,6 +10,7 @@ export function HomePage() {
   const navigate = useNavigate()
   const location = useLocation()
   const guestMode = useBoardStore((s) => s.guestMode)
+  const tiles = useBoardStore((s) => s.tiles)
   const theme = useBoardStore((s) => s.theme)
   const session = useAuthStore((s) => s.session)
   const isDark = theme === 'dark'
@@ -44,6 +45,10 @@ export function HomePage() {
   }, [location.hash])
 
   const clampedPreviewProgress = Math.min(100, Math.max(0, preview.progress))
+  const totalTiles = Math.max(tiles.length, 1)
+  const completedTiles = tiles.filter((tile) => tile.isDone).length
+  const remainingTiles = Math.max(totalTiles - completedTiles, 0)
+  const completedPercent = Math.round((completedTiles / totalTiles) * 100)
 
   return (
     <Layout>
@@ -227,6 +232,52 @@ export function HomePage() {
           </div>
         </div>
       </div>
+      <section className="mx-auto w-full max-w-3xl px-2 py-2">
+        <div className="mb-3 flex items-center justify-between">
+          <h2
+            className={[
+              'text-sm font-semibold sm:text-base',
+              isDark ? 'text-slate-100' : 'text-slate-900',
+            ].join(' ')}
+          >
+            Board Progress Pie Chart
+          </h2>
+          <span className="text-xs text-slate-500">
+            {completedTiles}/{totalTiles} complete
+          </span>
+        </div>
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <div
+            className={[
+              'h-36 w-36 rounded-full',
+              isDark
+                ? 'shadow-[0_0_24px_rgba(16,185,129,0.24)]'
+                : 'shadow-[0_0_20px_rgba(16,185,129,0.18)]',
+            ].join(' ')}
+            style={{
+              background: `conic-gradient(#10b981 0 ${completedPercent}%, #334155 ${completedPercent}% 100%)`,
+            }}
+            role="img"
+            aria-label={`Board progress pie chart showing ${completedPercent}% complete`}
+          >
+            <div className={['m-auto mt-6 h-24 w-24 rounded-full', isDark ? 'bg-slate-950' : 'bg-white'].join(' ')}>
+              <div className="flex h-full items-center justify-center text-sm font-semibold text-emerald-500">
+                {completedPercent}%
+              </div>
+            </div>
+          </div>
+          <div className="space-y-2 text-sm">
+            <div className="inline-flex items-center gap-2 text-slate-500">
+              <span className="inline-block h-3 w-3 rounded-full bg-emerald-500" />
+              Completed: {completedTiles}
+            </div>
+            <div className="inline-flex items-center gap-2 text-slate-500">
+              <span className="inline-block h-3 w-3 rounded-full bg-slate-600" />
+              Remaining: {remainingTiles}
+            </div>
+          </div>
+        </div>
+      </section>
       <FooterProgress />
     </Layout>
   )
