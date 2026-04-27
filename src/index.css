@@ -228,6 +228,42 @@ body {
   mix-blend-mode: soft-light;
 }
 
+.app-bg-stars-dark {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.42;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.8) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 22% 70%, rgba(255, 255, 255, 0.55) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 48% 80%, rgba(255, 255, 255, 0.5) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 60% 22%, rgba(255, 255, 255, 0.78) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 72% 62%, rgba(255, 255, 255, 0.58) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 84% 28%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 94% 74%, rgba(255, 255, 255, 0.6) 0 1px, transparent 1.5px);
+  background-repeat: repeat;
+  background-size: 340px 220px;
+  animation: dark-stars-drift 15s linear infinite;
+}
+
+.app-bg-stars-dark--slow {
+  z-index: -3;
+  opacity: 0.24;
+  filter: blur(0.4px);
+  animation-duration: 26s;
+}
+
+@keyframes dark-stars-drift {
+  from {
+    transform: translateX(-2.5%);
+  }
+  to {
+    transform: translateX(2.5%);
+  }
+}
+
 .full-bleed {
   width: 100vw;
   position: relative;
@@ -444,4 +480,56 @@ body {
 
 .budget-negative-box-blink {
   animation: budget-negative-box-blink 10s ease-in-out infinite;
+}
+
+@keyframes budget-title-shine {
+  0% {
+    background-position: -180% 0;
+  }
+  100% {
+    background-position: 180% 0;
+  }
+}
+
+.budget-title-shine {
+  background-image: linear-gradient(
+    110deg,
+    rgba(51, 65, 85, 0.9) 0%,
+    rgba(51, 65, 85, 0.9) 38%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(51, 65, 85, 0.9) 62%,
+    rgba(51, 65, 85, 0.9) 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: budget-title-shine 15s linear infinite;
+}
+
+@keyframes board-tile-shine {
+  0%,
+  92% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.board-tile-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0) 34%,
+    rgba(255, 255, 255, 0.24) 50%,
+    rgba(255, 255, 255, 0) 66%
+  );
+  background-size: 240% 100%;
+  background-position: -220% 0;
+  animation: board-tile-shine 15s linear infinite;
 }

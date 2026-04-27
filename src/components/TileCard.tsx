@@ -25,7 +25,7 @@ export function TileCard({
       onClick={onClick}
       disabled={disabled ?? tile.isDone}
       className={[
-        'group relative flex aspect-[4/3] w-full flex-col items-center justify-center rounded-xl border text-xs font-medium tabular-nums transition',
+        'board-tile-shine group relative flex aspect-[4/3] w-full flex-col items-center justify-center rounded-xl border text-xs font-medium tabular-nums transition',
         tile.isDone
           ? isDark
             ? 'border-emerald-500/40 bg-emerald-900/20 text-emerald-300'

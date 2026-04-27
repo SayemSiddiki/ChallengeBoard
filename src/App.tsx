@@ -235,6 +235,12 @@ function App() {
           <div className="app-bg-grid-light" />
         </>
       )}
+      {isDark && (
+        <>
+          <div className="app-bg-stars-dark" />
+          <div className="app-bg-stars-dark app-bg-stars-dark--slow" />
+        </>
+      )}
       {toast && (
         <div className="pointer-events-none fixed inset-x-0 top-4 z-40 flex justify-center">
           <div

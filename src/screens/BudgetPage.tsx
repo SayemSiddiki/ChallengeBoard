@@ -38,36 +38,15 @@ function sectionCard(
   children: React.ReactNode,
   title: string,
   color: string,
-  options: {
-    sectionId?: string
-    cardId?: string
-    expanded?: boolean
-    onToggleExpand?: (cardId: string) => void
-  } = {},
+  sectionId?: string,
 ) {
-  const { sectionId, cardId, expanded = false, onToggleExpand } = options
   return (
-    <section
-      id={sectionId}
-      className={[
-        'rounded-2xl border border-slate-200 bg-white shadow-sm transition',
-        expanded ? 'lg:col-span-full lg:scale-[1.01]' : '',
-      ].join(' ')}
-    >
+    <section id={sectionId} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
       <div
         className="flex items-center justify-between gap-2 rounded-t-2xl px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-slate-700"
         style={{ backgroundColor: color }}
       >
-        <span className="truncate whitespace-nowrap">{title}</span>
-        {cardId && onToggleExpand && (
-          <button
-            type="button"
-            onClick={() => onToggleExpand(cardId)}
-            className="rounded border border-slate-500/30 bg-white/60 px-2 py-0.5 text-[0.62rem] font-semibold text-slate-700"
-          >
-            {expanded ? 'Normal' : 'Expand'}
-          </button>
-        )}
+        <span className="budget-title-shine truncate whitespace-nowrap">{title}</span>
       </div>
       <div className="p-3 text-slate-800 sm:p-4">{children}</div>
     </section>
@@ -183,7 +162,6 @@ export function BudgetPage() {
   const [noteCursorByMonth, setNoteCursorByMonth] = useState<Record<string, number>>({})
   const [openNote, setOpenNote] = useState<{ title: string; text: string; createdAt: string } | null>(null)
   const [noteDraft, setNoteDraft] = useState('')
-  const [expandedCardId, setExpandedCardId] = useState<string | null>(null)
 
   useEffect(() => {
     initialize()
@@ -344,10 +322,6 @@ export function BudgetPage() {
     { label: 'Challenge', budget: summary.challengeYourself, actual: summary.challengeYourself },
   ]
   const maxBar = Math.max(...barRows.flatMap((item) => [item.budget, item.actual]), 1)
-  const toggleCardExpand = (cardId: string) => {
-    setExpandedCardId((prev) => (prev === cardId ? null : cardId))
-  }
-
   return (
     <Layout>
       <div className="space-y-5">
@@ -499,7 +473,6 @@ export function BudgetPage() {
             <CircularBudgetCard leftActual={summary.leftActual} totalIncomeActual={summary.totalIncomeActual} currency={activeMonth.meta.currency} />,
             'Left to Budget',
             palette.cashFlow,
-            { cardId: 'left', expanded: expandedCardId === 'left', onToggleExpand: toggleCardExpand },
           )}
           {sectionCard(
             <div className="space-y-2">
@@ -524,7 +497,6 @@ export function BudgetPage() {
             </div>,
             'Budget vs Actual',
             palette.cashFlow,
-            { cardId: 'bva', expanded: expandedCardId === 'bva', onToggleExpand: toggleCardExpand },
           )}
           {sectionCard(
             <button
@@ -588,7 +560,6 @@ export function BudgetPage() {
             </button>,
             'Breakdown',
             palette.breakdown,
-            { cardId: 'breakdown', expanded: expandedCardId === 'breakdown', onToggleExpand: toggleCardExpand },
           )}
           {sectionCard(
             <div className="space-y-1 text-xs text-slate-700">
@@ -642,7 +613,6 @@ export function BudgetPage() {
             </div>,
             'Overview Stats',
             palette.cashFlow,
-            { cardId: 'overview', expanded: expandedCardId === 'overview', onToggleExpand: toggleCardExpand },
           )}
         </div>
 
@@ -670,7 +640,7 @@ export function BudgetPage() {
             </div>,
             'Cash Flow',
             palette.cashFlow,
-            { sectionId: 'cash-flow-section', cardId: 'cashflow', expanded: expandedCardId === 'cashflow', onToggleExpand: toggleCardExpand },
+            'cash-flow-section',
           )}
 
           {sectionCard(
@@ -696,7 +666,6 @@ export function BudgetPage() {
             </div>,
             'Bills',
             palette.bills,
-            { cardId: 'bills', expanded: expandedCardId === 'bills', onToggleExpand: toggleCardExpand },
           )}
 
           {sectionCard(
@@ -724,7 +693,6 @@ export function BudgetPage() {
             </div>,
             'Expenses',
             palette.expenses,
-            { cardId: 'expenses', expanded: expandedCardId === 'expenses', onToggleExpand: toggleCardExpand },
           )}
 
           {sectionCard(
@@ -749,7 +717,6 @@ export function BudgetPage() {
             </div>,
             'Debt',
             palette.debt,
-            { cardId: 'debt', expanded: expandedCardId === 'debt', onToggleExpand: toggleCardExpand },
           )}
         </div>
 
@@ -784,7 +751,6 @@ export function BudgetPage() {
           </div>,
           'Income',
           palette.income,
-          { cardId: 'income', expanded: expandedCardId === 'income', onToggleExpand: toggleCardExpand },
         )}
 
         {sectionCard(
@@ -808,7 +774,6 @@ export function BudgetPage() {
           </div>,
           'Savings',
           palette.savings,
-          { cardId: 'savings', expanded: expandedCardId === 'savings', onToggleExpand: toggleCardExpand },
         )}
 
         {sectionCard(
@@ -865,7 +830,6 @@ export function BudgetPage() {
           </div>,
           'Transaction Log',
           palette.log,
-          { cardId: 'txlog', expanded: expandedCardId === 'txlog', onToggleExpand: toggleCardExpand },
         )}
 
         {sectionCard(
@@ -911,7 +875,6 @@ export function BudgetPage() {
           </div>,
           'Add Notes',
           palette.breakdown,
-          { cardId: 'notes', expanded: expandedCardId === 'notes', onToggleExpand: toggleCardExpand },
         )}
       </div>
       {showBreakdownLarge && (
