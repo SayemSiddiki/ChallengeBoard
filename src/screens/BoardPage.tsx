@@ -7,6 +7,7 @@ import { ConfirmModal } from '../components/ConfirmModal'
 import type { Tile } from '../store/boardStore'
 import { useBoardStore } from '../store/boardStore'
 import { CompletionCardModal } from '../components/CompletionCardModal'
+import { useStarCelebration } from '../hooks/useStarCelebration'
 
 export function BoardPage() {
   const location = useLocation()
@@ -21,6 +22,7 @@ export function BoardPage() {
     resetBoard,
   } = useBoardStore()
   const showToast = useBoardStore((s) => s.showToast)
+  const triggerStarCelebration = useStarCelebration()
 
   const [selectedTile, setSelectedTile] = useState<Tile | null>(null)
   const [note, setNote] = useState('')
@@ -29,7 +31,6 @@ export function BoardPage() {
   const [showCustomModal, setShowCustomModal] = useState(false)
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [resetText, setResetText] = useState('')
-  const [celebrateKey, setCelebrateKey] = useState(0)
   const [completionCard, setCompletionCard] = useState<{
     isOpen: boolean
     amount: number
@@ -57,12 +58,6 @@ export function BoardPage() {
     ) as HTMLButtonElement | null
     el?.focus()
   }, [location.hash])
-
-  useEffect(() => {
-    if (!celebrateKey) return
-    const t = setTimeout(() => setCelebrateKey(0), 1600)
-    return () => clearTimeout(t)
-  }, [celebrateKey])
 
   const totalSaved = useMemo(
     () => deposits.reduce((sum, d) => sum + d.amount, 0),
@@ -161,9 +156,9 @@ export function BoardPage() {
     })
 
     completeTile(selectedTile.id, note.trim() || undefined)
+    triggerStarCelebration()
     setSelectedTile(null)
     setNote('')
-    setCelebrateKey((k) => k + 1)
     showToast('Tile completed. Progress updated.', 'success')
   }
 
@@ -174,7 +169,6 @@ export function BoardPage() {
     setShowCustomModal(false)
     setCustomAmount('')
     setCustomNote('')
-    setCelebrateKey((k) => k + 1)
   }
 
   const handleReset = () => {
@@ -186,32 +180,6 @@ export function BoardPage() {
 
   return (
     <Layout>
-      {celebrateKey > 0 && (
-        <div className="pointer-events-none fixed inset-0 z-30 overflow-hidden">
-          {Array.from({ length: 40 }).map((_, i) => {
-            const left = Math.random() * 100
-            const duration = 1 + Math.random() * 0.8
-            const delay = Math.random() * 0.2
-            const size = 18 + Math.random() * 10
-            const isMoney = i % 2 === 0
-            const symbol = isMoney ? '$' : '🎉'
-            return (
-              <span
-                key={`${celebrateKey}-${i}`}
-                className="money-rain-item"
-                style={{
-                  left: `${left}%`,
-                  animationDuration: `${duration}s`,
-                  animationDelay: `${delay}s`,
-                  fontSize: `${size}px`,
-                }}
-              >
-                {symbol}
-              </span>
-            )
-          })}
-        </div>
-      )}
       <div className="space-y-6">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
           <div className="space-y-2">
