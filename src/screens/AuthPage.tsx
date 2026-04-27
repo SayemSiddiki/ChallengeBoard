@@ -74,7 +74,7 @@ export function AuthPage() {
     const { error: supaError } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: window.location.origin + '/board',
+        emailRedirectTo: window.location.origin + '/home',
       },
     })
     if (supaError) {
