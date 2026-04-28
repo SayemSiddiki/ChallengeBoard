@@ -139,7 +139,12 @@ export function HomePage() {
           <img
             src="/premium-chess-board.png"
             alt="Premium 3D Chess Board"
-            className="chess-subtle-motion w-full object-contain mix-blend-screen drop-shadow-[0_0_100px_rgba(16,185,129,0.5)]"
+            className={[
+              'chess-subtle-motion w-full object-contain',
+              isDark
+                ? 'mix-blend-screen drop-shadow-[0_0_100px_rgba(16,185,129,0.5)]'
+                : 'mix-blend-normal drop-shadow-[0_0_26px_rgba(16,185,129,0.2)]',
+            ].join(' ')}
           />
         </div>
       </div>
