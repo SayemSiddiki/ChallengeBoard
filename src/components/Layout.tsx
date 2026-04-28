@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useBoardStore } from '../store/boardStore'
 import { useAuthStore } from '../store/authStore'
 import { logout } from '../logout'
-import { AccountSettingsModal } from './AccountSettingsModal'
 import { MyProfileModal } from './MyProfileModal'
 
 const navItems = [
@@ -38,7 +37,6 @@ export function Layout({ children }: { children: ReactNode }) {
 
   const [menuOpen, setMenuOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
-  const [settingsOpen, setSettingsOpen] = useState(false)
   const pillRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -70,11 +68,6 @@ export function Layout({ children }: { children: ReactNode }) {
     navigate('/home', { replace: true })
   }
 
-  const openSettings = () => {
-    setMenuOpen(false)
-    setSettingsOpen(true)
-  }
-
   const openProfile = () => {
     setMenuOpen(false)
     setProfileOpen(true)
@@ -83,29 +76,18 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-[calc(100vh-4.5rem)] w-full flex-col px-4 py-6">
       {session && (
-        <>
-          <MyProfileModal
-            open={profileOpen}
-            session={session}
-            profile={profile}
-            isDark={isDark}
-            goalAmount={goalAmount}
-            tiles={tiles}
-            deposits={deposits}
-            onClose={() => setProfileOpen(false)}
-            onProfileSaved={setProfile}
-            showToast={showToast}
-          />
-          <AccountSettingsModal
-            open={settingsOpen}
-            session={session}
-            profile={profile}
-            isDark={isDark}
-            onClose={() => setSettingsOpen(false)}
-            onProfileSaved={setProfile}
-            showToast={showToast}
-          />
-        </>
+        <MyProfileModal
+          open={profileOpen}
+          session={session}
+          profile={profile}
+          isDark={isDark}
+          goalAmount={goalAmount}
+          tiles={tiles}
+          deposits={deposits}
+          onClose={() => setProfileOpen(false)}
+          onProfileSaved={setProfile}
+          showToast={showToast}
+        />
       )}
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <nav
@@ -203,19 +185,6 @@ export function Layout({ children }: { children: ReactNode }) {
                     ].join(' ')}
                   >
                     My profile
-                  </button>
-                  <button
-                    type="button"
-                    role="menuitem"
-                    onClick={openSettings}
-                    className={[
-                      'w-full px-3 py-2 text-left text-xs font-semibold transition',
-                      isDark
-                        ? 'hover:bg-slate-900'
-                        : 'hover:bg-slate-50',
-                    ].join(' ')}
-                  >
-                    Account settings
                   </button>
                   <button
                     type="button"
