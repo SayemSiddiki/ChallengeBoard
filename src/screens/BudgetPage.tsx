@@ -333,8 +333,8 @@ export function BudgetPage() {
               : 'bg-white/70 shadow-sm',
           ].join(' ')}
         >
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <div>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-8">
+            <div className="min-w-[200px]">
               <div className="text-[0.7rem] uppercase tracking-[0.16em] text-slate-500">Month</div>
               <select
                 value={activeMonth.meta.id}
@@ -348,7 +348,7 @@ export function BudgetPage() {
                 ))}
               </select>
             </div>
-            <div>
+            <div className="min-w-[180px]">
               <div className="text-[0.7rem] uppercase tracking-[0.16em] text-slate-500">Challenge Yourself</div>
               <button
                 type="button"
@@ -358,11 +358,11 @@ export function BudgetPage() {
                 Spinner
               </button>
             </div>
-            <div className="min-w-[220px]">
+            <div className="min-w-[320px] sm:ml-2">
               <div className="text-[0.7rem] uppercase tracking-[0.16em] text-slate-500">Notes</div>
               <div
                 className={[
-                  'mt-1 rounded-xl px-2 py-1 text-[0.7rem]',
+                  'mt-1 rounded-xl px-3 py-2 text-[0.7rem]',
                   isDark
                     ? 'border border-slate-700 bg-slate-950/70 text-slate-300'
                     : 'border border-slate-200 bg-white text-slate-700 shadow-sm',

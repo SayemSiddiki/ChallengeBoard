@@ -67,6 +67,39 @@ body {
   animation: float-soft 4s ease-in-out infinite;
 }
 
+@keyframes chess-subtle-motion {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.02);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0) scale(1.035);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.02);
+  }
+}
+
+.chess-subtle-motion {
+  animation: chess-subtle-motion 6s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+@keyframes rotate-y-360 {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.rotate-y-360 {
+  animation: rotate-y-360 24s linear infinite;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}
+
 @keyframes fade-up-soft {
   0% {
     opacity: 0;
@@ -339,6 +372,8 @@ body {
     animation: none;
   }
   .float-soft,
+  .chess-subtle-motion,
+  .rotate-y-360,
   .fade-up-soft,
   .fade-up-soft-delay-1,
   .fade-up-soft-delay-2,

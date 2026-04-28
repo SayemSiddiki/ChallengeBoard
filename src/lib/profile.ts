@@ -6,6 +6,9 @@ export type Profile = {
   first_name: string | null
   last_name: string | null
   full_name: string | null
+  username: string | null
+  bio: string | null
+  status: 'active' | 'paused' | null
   avatar_url: string | null
   updated_at: string | null
 }
@@ -16,7 +19,7 @@ export async function getProfile(userId: string, supabase?: SupabaseClient) {
 
   const { data, error } = await client
     .from('profiles')
-    .select('id, first_name, last_name, full_name, avatar_url, updated_at')
+    .select('id, first_name, last_name, full_name, username, bio, status, avatar_url, updated_at')
     .eq('id', userId)
     .maybeSingle()
 
@@ -25,7 +28,14 @@ export async function getProfile(userId: string, supabase?: SupabaseClient) {
 
 export async function upsertProfile(
   userId: string,
-  input: { first_name: string; last_name: string; avatar_url?: string | null },
+  input: {
+    first_name: string
+    last_name: string
+    avatar_url?: string | null
+    username?: string | null
+    bio?: string | null
+    status?: 'active' | 'paused' | null
+  },
   supabase?: SupabaseClient,
 ) {
   const client = supabase ?? getSupabaseClient()
@@ -34,20 +44,30 @@ export async function upsertProfile(
   const first = input.first_name.trim()
   const last = input.last_name.trim()
   const full = `${first} ${last}`.trim()
+  const payload: {
+    id: string
+    first_name: string
+    last_name: string
+    full_name: string
+    avatar_url?: string | null
+    username?: string | null
+    bio?: string | null
+    status?: 'active' | 'paused' | null
+  } = {
+    id: userId,
+    first_name: first,
+    last_name: last,
+    full_name: full,
+  }
+  if (input.avatar_url !== undefined) payload.avatar_url = input.avatar_url ?? null
+  if (input.username !== undefined) payload.username = input.username?.trim() || null
+  if (input.bio !== undefined) payload.bio = input.bio?.trim() || null
+  if (input.status !== undefined) payload.status = input.status ?? null
 
   const { data, error } = await client
     .from('profiles')
-    .upsert(
-      {
-        id: userId,
-        first_name: first,
-        last_name: last,
-        full_name: full,
-        avatar_url: input.avatar_url ?? null,
-      },
-      { onConflict: 'id' },
-    )
-    .select('id, first_name, last_name, full_name, avatar_url, updated_at')
+    .upsert(payload, { onConflict: 'id' })
+    .select('id, first_name, last_name, full_name, username, bio, status, avatar_url, updated_at')
     .maybeSingle()
 
   // If RLS blocks returning/selecting, Supabase can succeed with no row returned.
@@ -60,7 +80,10 @@ export async function upsertProfile(
         first_name: first,
         last_name: last,
         full_name: full,
-        avatar_url: input.avatar_url ?? null,
+        username: input.username !== undefined ? input.username?.trim() || null : null,
+        bio: input.bio !== undefined ? input.bio?.trim() || null : null,
+        status: input.status !== undefined ? input.status ?? null : null,
+        avatar_url: input.avatar_url !== undefined ? input.avatar_url ?? null : null,
         updated_at: null,
       },
       error: null,
