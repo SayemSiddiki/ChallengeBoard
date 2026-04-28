@@ -5,9 +5,16 @@ create table if not exists public.profiles (
   first_name text,
   last_name text,
   full_name text,
+  username text,
+  bio text,
+  status text check (status in ('active', 'paused')),
   avatar_url text,
   updated_at timestamptz not null default now()
 );
+
+alter table public.profiles add column if not exists username text;
+alter table public.profiles add column if not exists bio text;
+alter table public.profiles add column if not exists status text;
 
 create or replace function public.set_profiles_updated_at()
 returns trigger as $$

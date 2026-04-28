@@ -93,6 +93,8 @@ export function Layout({ children }: { children: ReactNode }) {
             tiles={tiles}
             deposits={deposits}
             onClose={() => setProfileOpen(false)}
+            onProfileSaved={setProfile}
+            showToast={showToast}
           />
           <AccountSettingsModal
             open={settingsOpen}
