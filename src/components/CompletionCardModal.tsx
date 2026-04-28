@@ -82,52 +82,6 @@ export function CompletionCardModal({
     }
   }
 
-  const handleDownload = async () => {
-    if (!cardRef.current) return
-    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent)
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-    // Open fallback tab immediately (user gesture) so popup blockers do not block later.
-    const fallbackTab =
-      isIos || isSafari ? window.open('', '_blank', 'noopener,noreferrer') : null
-    try {
-      const html2canvasModule = await import('html2canvas')
-      const html2canvas = html2canvasModule.default
-      const canvas = await html2canvas(cardRef.current, {
-        backgroundColor: null,
-        scale: window.devicePixelRatio || 2,
-      })
-      const fileName = `challenge-board-day-${dayNumber}.png`
-      const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob((value) => resolve(value), 'image/png'),
-      )
-      if (!blob) {
-        throw new Error('Could not create image blob')
-      }
-
-      const objectUrl = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = objectUrl
-      link.download = fileName
-      link.rel = 'noopener'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-
-      // Some browsers (notably iOS Safari) block direct download;
-      // send fallback tab to the image so user can long-press / Save Image.
-      if (fallbackTab) {
-        fallbackTab.location.href = objectUrl
-      }
-
-      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 5000)
-      showToast('Card image ready. If download is blocked, save from opened tab.', 'success')
-    } catch (error) {
-      console.error('Error generating PNG card', error)
-      if (fallbackTab) fallbackTab.close()
-      showToast('Could not download card.', 'error')
-    }
-  }
-
   if (!isOpen) return null
 
   return (
@@ -251,13 +205,6 @@ export function CompletionCardModal({
             className="inline-flex items-center justify-center gap-1 rounded-full border border-emerald-400/80 bg-emerald-500/20 px-4 py-1.5 font-semibold text-emerald-200 hover:bg-emerald-500/30"
           >
             Share
-          </button>
-          <button
-            type="button"
-            onClick={handleDownload}
-            className="inline-flex items-center justify-center gap-1 rounded-full border border-sky-400/80 bg-sky-500/20 px-4 py-1.5 font-semibold text-sky-100 hover:bg-sky-500/30"
-          >
-            Download
           </button>
           {onNextTile && (
             <button
