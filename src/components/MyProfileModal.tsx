@@ -78,6 +78,15 @@ export function MyProfileModal({
   onProfileSaved,
   showToast,
 }: MyProfileModalProps) {
+  const withTimeout = async <T,>(promise: Promise<T>, ms: number) => {
+    return await Promise.race<T>([
+      promise,
+      new Promise<T>((_, reject) =>
+        window.setTimeout(() => reject(new Error('Request timed out. Please try again.')), ms),
+      ),
+    ])
+  }
+
   const stats = useMemo(() => {
     const totalSaved = deposits.reduce((sum, row) => sum + row.amount, 0)
     const completedDays = tiles.filter((tile) => tile.isDone).length
@@ -184,21 +193,30 @@ export function MyProfileModal({
     }
     setSaving(true)
     try {
-      const { profile: saved, error } = await upsertProfile(session.user.id, {
-        first_name: firstName.trim(),
-        last_name: lastName.trim(),
-        username: username.trim().toLowerCase(),
-        bio: bio.trim(),
-        status,
-        avatar_url: avatarDisplay,
-      })
+      const { profile: saved, error } = await withTimeout(
+        upsertProfile(session.user.id, {
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          username: username.trim().toLowerCase(),
+          bio: bio.trim(),
+          status,
+          avatar_url: avatarDisplay,
+        }),
+        15000,
+      )
       if (error || !saved) {
-        showToast('Could not save profile.', 'error')
+        showToast(error?.message || 'Could not save profile.', 'error')
         return
       }
 
       // Refresh from DB after save so UI reflects persisted values immediately.
-      const { profile: refreshed } = await getProfile(session.user.id)
+      const { profile: refreshed, error: refreshError } = await withTimeout(
+        getProfile(session.user.id),
+        10000,
+      )
+      if (refreshError) {
+        showToast(refreshError.message, 'error')
+      }
       onProfileSaved(refreshed ?? saved)
       setEditing(false)
       showToast('Profile updated.', 'success')

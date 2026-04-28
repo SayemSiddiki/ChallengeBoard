@@ -64,11 +64,38 @@ export async function upsertProfile(
   if (input.bio !== undefined) payload.bio = input.bio?.trim() || null
   if (input.status !== undefined) payload.status = input.status ?? null
 
-  const { data, error } = await client
-    .from('profiles')
-    .upsert(payload, { onConflict: 'id' })
-    .select('id, first_name, last_name, full_name, username, bio, status, avatar_url, updated_at')
-    .maybeSingle()
+  const runUpsert = async (upsertPayload: typeof payload) => {
+    return await client
+      .from('profiles')
+      .upsert(upsertPayload, { onConflict: 'id' })
+      .select('id, first_name, last_name, full_name, username, bio, status, avatar_url, updated_at')
+      .maybeSingle()
+  }
+
+  let { data, error } = await runUpsert(payload)
+
+  // Fallback: if optional columns are missing or blocked, retry with core profile fields.
+  if (error) {
+    const corePayload: {
+      id: string
+      first_name: string
+      last_name: string
+      full_name: string
+      avatar_url?: string | null
+    } = {
+      id: userId,
+      first_name: first,
+      last_name: last,
+      full_name: full,
+    }
+    if (input.avatar_url !== undefined) corePayload.avatar_url = input.avatar_url ?? null
+
+    const fallbackResult = await runUpsert(corePayload)
+    if (!fallbackResult.error) {
+      data = fallbackResult.data
+      error = fallbackResult.error
+    }
+  }
 
   // If RLS blocks returning/selecting, Supabase can succeed with no row returned.
   // In that case, still provide a best-effort local profile so UI can proceed.
