@@ -176,13 +176,15 @@ export function HomePage() {
             </div>
           </div>
           <div className="space-y-2 text-sm">
-            <div className="inline-flex items-center gap-2 text-slate-500">
+            <div className="inline-flex items-center gap-2.5 text-slate-500">
               <span className="inline-block h-3 w-3 rounded-full bg-emerald-500" />
-              Completed: {completedTiles}
+              <span>Completed:</span>
+              <span className="min-w-[1.5ch] tabular-nums">{completedTiles}</span>
             </div>
-            <div className="inline-flex items-center gap-2 text-slate-500">
+            <div className="inline-flex items-center gap-2.5 text-slate-500">
               <span className="inline-block h-3 w-3 rounded-full bg-slate-600" />
-              Remaining: {remainingTiles}
+              <span>Remaining:</span>
+              <span className="min-w-[1.5ch] tabular-nums">{remainingTiles}</span>
             </div>
           </div>
         </div>
