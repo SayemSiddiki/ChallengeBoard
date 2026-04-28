@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Session } from '@supabase/supabase-js'
-import { upsertProfile, type Profile } from '../lib/profile'
+import { getProfile, upsertProfile, type Profile } from '../lib/profile'
 import type { Deposit, Tile } from '../store/boardStore'
 
 type MyProfileModalProps = {
@@ -196,9 +196,16 @@ export function MyProfileModal({
         showToast('Could not save profile.', 'error')
         return
       }
-      onProfileSaved(saved)
+
+      // Refresh from DB after save so UI reflects persisted values immediately.
+      const { profile: refreshed } = await getProfile(session.user.id)
+      onProfileSaved(refreshed ?? saved)
       setEditing(false)
       showToast('Profile updated.', 'success')
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Could not save profile. Please try again.'
+      showToast(message, 'error')
     } finally {
       setSaving(false)
     }
